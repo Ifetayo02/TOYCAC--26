@@ -11,7 +11,7 @@ export const Footer = () => {
         {/* Logo */}
         <div className="mb-6">
           <img 
-            src="timsan-logo.png" 
+            src={logo} 
             alt="TIMSAN Logo" 
             className="w-20 h-20 object-contain rounded-full border-2 border-emerald-500/20 p-1"
           />
