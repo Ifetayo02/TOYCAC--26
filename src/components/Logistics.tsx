@@ -26,7 +26,7 @@ export const Logistics = () => {
               </div>
               <div>
                 <h4 className="font-bold text-lg text-gray-900">Date & Time</h4>
-                <p className="text-gray-600 font-medium text-lg">Dec 20th – 25th, 2026</p>
+                <p className="text-gray-600 font-medium text-lg">To be decided, 2026</p>
                 <p className="text-sm text-gray-500 italic mt-1">Arrival starts at 10:00 AM on Day 1.</p>
               </div>
             </div>
