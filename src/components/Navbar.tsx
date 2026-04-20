@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/timsan-logo.png"; // Ensure this path is correct based on your project structure
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const Navbar = () => {
           onClick={() => navigate("/")}
         >
           <img 
-            src="../timsan-logo.png" 
+            src={logo} 
             alt="TIMSAN Logo" 
             className="w-10 h-10 md:w-14 md:h-14 object-contain"
             referrerPolicy="no-referrer"
