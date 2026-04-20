@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Twitter } from "lucide-react";
+import logo from "../assets/timsan-logo.png"; // Ensure this path is correct based on your project structure
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
