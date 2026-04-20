@@ -17,7 +17,7 @@ export const Navbar = () => {
           onClick={() => navigate("/")}
         >
           <img 
-            src="timsan-logo.png" 
+            src="./timsan-logo.png" 
             alt="TIMSAN Logo" 
             className="w-10 h-10 md:w-14 md:h-14 object-contain"
             referrerPolicy="no-referrer"
