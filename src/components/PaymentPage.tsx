@@ -20,7 +20,7 @@ export const PaymentPage = () => {
         {/* Progress Header */}
         <div className="mb-10 text-center">
           <Link to="/" className="inline-flex items-center gap-2 text-emerald-700 font-bold mb-6 hover:underline">
-            <ArrowLeft size={18} /> Back to Info
+            <ArrowLeft size={18} /> Go back to Home
           </Link>
           <div className="flex justify-center gap-2 mb-4">
             <div className="h-2 w-16 bg-emerald-600 rounded-full"></div>

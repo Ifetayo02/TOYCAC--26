@@ -13,7 +13,7 @@ const faqData = [
   },
     {
     question: "How do I register for the camp?",
-    answer: "Secure your registration in three steps: Pay the delegate fee to the official account, capture your digital receipt, and upload it through our integrated Google Form. A confirmation email will be dispatched to you once our Secretariat validates the transaction."
+    answer: "Secure your registration in three steps: Pay the delegate fee to the official account on the payment page, capture your digital receipt, and upload it through our integrated Google Form. A confirmation email will be dispatched to you once our Secretariat validates the transaction."
   },
   {
     question: "Is the registration fee for the entirety of the camp?",
@@ -91,7 +91,7 @@ export const FaqAccordion = () => {
         </div>
 
         {/* Support CTA */}
-        <div className="mt-12 p-8 bg-[#F0FDF4] rounded-3xl border-2 border-dashed border-emerald-300 text-center">
+        <div className="mt-12 p-8 bg-[#F0FDF4] rounded-3xl border-2 border-dashed border-emerald-300 text-center" id="contact">
           <p className="font-bold text-gray-800 mb-4">Still confused about something?</p>
           <a 
             href="https://wa.me/your-number" 
