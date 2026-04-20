@@ -65,7 +65,7 @@ export const Hero = () => {
             {/* Replace with a high-res camp image or mosque photo */}
             <img 
               className="w-full h-full object-cover" 
-              src="./download.jpg" 
+              src="../download.jpg" 
               alt="TIMSAN Conference delegates"
               referrerPolicy="no-referrer"
             />
