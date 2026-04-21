@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
-import heroImage from "../assets/download.jpg"; // Replace with your actual image path
+import heroImage from "../assets/download.jpg"; 
+import {useNavigate} from "react-router-dom"// Replace with your actual image path
 
 export const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative px-6 py-16 md:py-32 overflow-hidden bg-[#F0FDF4]">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
@@ -40,7 +43,7 @@ export const Hero = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="bg-emerald-600 text-white px-10 py-4 rounded-xl text-lg font-black border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-all hover:bg-emerald-700"
-              onClick={() => document.getElementById('payment-section')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => navigate("/register")}
             >
               Register Now
             </motion.button>

@@ -33,7 +33,7 @@ export const Logistics = () => {
 
             <div className="bg-white p-6 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex gap-4">
               <div className="bg-blue-100 p-3 rounded-xl h-fit">
-                <MapPin className="w-6 h-6 text-blue-700" />
+                <MapPin className="w-6 h-6 text-emerald-700" />
               </div>
               <div>
                 <h4 className="font-bold text-lg text-gray-900">Venue</h4>

@@ -23,11 +23,7 @@ export const Navbar = () => {
             className="w-10 h-10 md:w-14 md:h-14 object-contain"
             referrerPolicy="no-referrer"
           />
-          {/* hidden on extra small screens, shown from small (sm) upwards */}
-          <div className="hidden sm:flex flex-col leading-tight">
-            <span className="text-emerald-700 font-black text-base md:text-lg tracking-tight">TIMSAN</span>
-            <span className="text-gray-500 text-[10px] md:text-xs font-medium">Oyo State Conference</span>
-          </div>
+       
         </motion.div>
         
         {/* Navigation Links - Desktop Only */}

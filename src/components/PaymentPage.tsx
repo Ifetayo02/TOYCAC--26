@@ -14,7 +14,7 @@ export const PaymentPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0FDF4] pt-28 pb-20 px-6">
+    <div className="min-h-screen bg-[#F0FDF4] pt-14 pb-20 px-6">
       <div className="max-w-3xl mx-auto">
         
         {/* Progress Header */}
@@ -23,7 +23,6 @@ export const PaymentPage = () => {
             <ArrowLeft size={18} /> Go back to Home
           </Link>
           <div className="flex justify-center gap-2 mb-4">
-            <div className="h-2 w-16 bg-emerald-600 rounded-full"></div>
             <div className="h-2 w-16 bg-emerald-600 rounded-full"></div>
             <div className="h-2 w-16 bg-gray-200 rounded-full"></div>
           </div>
@@ -39,7 +38,7 @@ export const PaymentPage = () => {
             className="bg-white p-6 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex gap-4"
           >
             <div className="bg-blue-100 p-3 rounded-xl h-fit">
-              <Info className="w-6 h-6 text-blue-700" />
+              <Info className="w-6 h-6 text-emerald-700" />
             </div>
             <div>
               <h4 className="font-bold text-gray-900 text-lg">Step 1: Make your payment</h4>
@@ -92,7 +91,7 @@ export const PaymentPage = () => {
             <h4 className="font-bold text-lg mb-2">Step 2: Submit your details</h4>
             <p className="text-gray-600 mb-6 text-sm italic">Once you have your payment screenshot ready, click below to finish.</p>
             <a 
-              href="YOUR_GOOGLE_FORM_LINK" 
+              href="https://forms.gle/zxf3Zx12BNBKKjgTA" 
               target="_blank"
               rel="noreferrer"
               className="inline-block w-full bg-emerald-600 text-white font-black py-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] transition-all"

@@ -11,13 +11,13 @@ const features = [
   {
     title: "Intellectual & Personal Growth",
     desc: "Engage in thought-provoking discussions and workshops designed to enhance your critical thinking and personal development.",
-    icon: <Monitor className="w-8 h-8 text-blue-600" />,
+    icon: <Monitor className="w-8 h-8 text-emerald-600" />,
     color: "bg-blue-50"
   },
   {
     title: "Strategic Networking",
     desc: "Connect with brothers and sisters from tertiary institutions across Oyo State to build a lifelong network.",
-    icon: <Users className="w-8 h-8 text-purple-600" />,
+    icon: <Users className="w-8 h-8 text-emerald-600" />,
     color: "bg-purple-50"
   }
 ];
