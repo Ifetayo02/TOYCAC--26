@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { logo } from "../assets/timsan-logo.png"; // Replace with your actual logo path
+import  logo  from "../assets/timsan-logo.png"; // Replace with your actual logo path
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

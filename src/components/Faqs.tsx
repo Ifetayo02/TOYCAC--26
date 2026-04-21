@@ -34,41 +34,43 @@ export const FaqAccordion = () => {
   };
 
   return (
-    <section id="faq" className="py-24 px-6 bg-white">
+    <section id="faq" className="py-12 md:py-24 px-4 md:px-6 bg-white">
       <div className="max-w-3xl mx-auto">
         
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="flex justify-center mb-4">
-            <span className="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest border border-emerald-200 flex items-center gap-2">
-              <HelpCircle size={14} /> Support
+        {/* Header - Tightened for Mobile */}
+        <div className="text-center mb-10 md:mb-16">
+          <div className="flex justify-center mb-3">
+            <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest border border-emerald-200 flex items-center gap-2">
+              <HelpCircle size={12} /> Support
             </span>
           </div>
-          <h2 className="text-4xl font-black text-gray-900 mb-4">Frequently Asked</h2>
-          <p className="text-gray-600">Everything you need to know before joining us at TCAC '26.</p>
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3">Frequently Asked</h2>
+          <p className="text-gray-600 text-sm md:text-base px-4">Everything you need to know before TCAC '26.</p>
         </div>
 
         {/* Accordion List */}
-        <div className="space-y-4">
+        <div className="space-y-3 md:space-y-4">
           {faqData.map((item, index) => (
             <div 
               key={index} 
-              className={`border-2 border-black rounded-2xl overflow-hidden transition-all duration-300 ${
-                activeIndex === index ? 'shadow-[6px_6px_0px_0px_rgba(5,150,105,1)]' : 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+              className={`border-2 border-black rounded-xl md:rounded-2xl overflow-hidden transition-all duration-300 ${
+                activeIndex === index 
+                ? 'shadow-[4px_4px_0px_0px_rgba(5,150,105,1)] md:shadow-[6px_6px_0px_0px_rgba(5,150,105,1)]' 
+                : 'shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] md:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
               }`}
             >
               <button
                 onClick={() => toggleAccordion(index)}
-                className="w-full flex justify-between items-center p-6 text-left bg-white hover:bg-emerald-50 transition-colors"
+                className="w-full flex justify-between items-center p-4 md:p-6 text-left bg-white hover:bg-emerald-50 transition-colors"
               >
-                <span className="font-bold text-gray-900 text-lg leading-tight">
+                <span className="font-bold text-gray-900 text-sm md:text-lg leading-tight pr-4">
                   {item.question}
                 </span>
                 <motion.div
                   animate={{ rotate: activeIndex === index ? 180 : 0 }}
-                  className="text-emerald-600 bg-emerald-50 p-2 rounded-lg border border-emerald-200"
+                  className="text-emerald-600 bg-emerald-50 p-1.5 md:p-2 rounded-lg border border-emerald-200 flex-shrink-0"
                 >
-                  <ChevronDown size={20} />
+                  <ChevronDown size={18} />
                 </motion.div>
               </button>
 
@@ -80,7 +82,7 @@ export const FaqAccordion = () => {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
-                    <div className="px-6 pb-6 pt-2 text-gray-600 leading-relaxed border-t border-gray-100">
+                    <div className="px-4 md:px-6 pb-4 md:pb-6 pt-1 text-gray-600 text-xs md:text-base leading-relaxed border-t border-gray-50">
                       {item.answer}
                     </div>
                   </motion.div>
@@ -90,14 +92,14 @@ export const FaqAccordion = () => {
           ))}
         </div>
 
-        {/* Support CTA */}
-        <div className="mt-12 p-8 bg-[#F0FDF4] rounded-3xl border-2 border-dashed border-emerald-300 text-center" id="contact">
-          <p className="font-bold text-gray-800 mb-4">Still confused about something?</p>
+        {/* Support CTA - Minimized for Mobile */}
+        <div className="mt-10 p-6 md:p-8 bg-[#F0FDF4] rounded-2xl md:rounded-3xl border-2 border-dashed border-emerald-300 text-center" id="contact">
+          <p className="font-bold text-sm md:text-base text-gray-800 mb-4">Still confused about something?</p>
           <a 
             href="https://wa.me/your-number" 
-            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-8 py-3 rounded-xl font-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[0px] transition-all"
+            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 md:px-8 py-3 rounded-xl text-sm md:text-base font-black border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[0px] transition-all"
           >
-            <MessageCircle size={20} /> Message the Secretariat
+            <MessageCircle size={18} /> Message Secretariat
           </a>
         </div>
 
