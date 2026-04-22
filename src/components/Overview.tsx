@@ -12,13 +12,13 @@ const features = [
     title: "Intellectual Growth",
     desc: "Workshops designed to enhance your critical thinking and personal development.",
     icon: <Monitor className="w-6 h-6 md:w-8 md:h-8 text-emerald-600" />,
-    color: "bg-blue-50"
+    color: "bg-emerald-50"
   },
   {
     title: "Strategic Networking",
     desc: "Connect with brothers and sisters across Oyo State to build a lifelong network.",
     icon: <Users className="w-6 h-6 md:w-8 md:h-8 text-emerald-600" />,
-    color: "bg-purple-50"
+    color: "bg-emerald-50"
   }
 ];
 
