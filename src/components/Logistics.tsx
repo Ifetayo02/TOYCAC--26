@@ -52,7 +52,7 @@ export const Logistics = () => {
               </div>
 
               <div className="flex gap-3 md:gap-4">
-                <div className="bg-blue-100 p-2 md:p-3 rounded-xl h-fit flex-shrink-0">
+                <div className="bg-emerald-100 p-2 md:p-3 rounded-xl h-fit flex-shrink-0">
                   <MapPin className="w-5 h-5 md:w-6 md:h-6 text-emerald-700" />
                 </div>
                 <div>

@@ -18,7 +18,7 @@ export const Hero = () => {
             className="space-y-4 md:space-y-6"
           >
             <span className="inline-block text-emerald-700 font-bold tracking-widest text-[10px] md:text-xs uppercase bg-emerald-100 px-4 py-1.5 rounded-full border border-emerald-200">
-              TCAC '26
+              TOYCAC '26
             </span>
             
             {/* Minimized text-4xl on mobile, text-7xl on desktop */}
