@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { CreditCard, Copy, Check, Info, ArrowLeft } from "lucide-react";
+import { CreditCard, Copy, Check, Info, ArrowLeft, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const PaymentPage = () => {
   const [copied, setCopied] = useState(false);
-  const accountNumber = "1234567890";
+  const accountNumber = "1234567890"; // Abdulqoyum: Replace with real number
 
   const handleCopy = () => {
     navigator.clipboard.writeText(accountNumber);
@@ -13,8 +13,14 @@ export const PaymentPage = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const fees = [
+    { category: "Children", price: "₦3,000" },
+    { category: "Timsanite / Non-Timsanite", price: "₦5,000" },
+    { category: "IOTB", price: "₦7,000" },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#F0FDF4] pt-2 pb-20 px-4 md:px-6">
+    <div className="min-h-screen bg-[#F0FDF4] pt-6 pb-20 px-4 md:px-6">
       <div className="max-w-3xl mx-auto">
         
         {/* Progress Header */}
@@ -27,29 +33,38 @@ export const PaymentPage = () => {
             <div className="h-1.5 w-12 bg-gray-200 rounded-full"></div>
           </div>
           <h1 className="text-2xl md:text-3xl font-black text-gray-900">Finalize Registration</h1>
-          <p className="text-gray-600 text-sm md:text-base">Secure your slot in two easy steps.</p>
+          <p className="text-gray-600 text-sm md:text-base">Complete your payment to secure your slot.</p>
         </div>
 
         <div className="space-y-6 md:space-y-8">
           
-          {/* Step 1: Instruction */}
+          {/* Step 1: Fee Schedule Card - NEW SECTION */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white p-5 md:p-6 rounded-2xl border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex gap-4 items-start"
+            className="bg-white p-5 md:p-6 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >
-            <div className="bg-blue-50 p-2.5 rounded-xl flex-shrink-0">
-              <Info className="w-5 h-5 md:w-6 md:h-6 text-emerald-700" />
+            <div className="flex items-center gap-3 mb-4">
+              <div className="bg-emerald-100 p-2 rounded-lg">
+                <Users className="w-5 h-5 text-emerald-700" />
+              </div>
+              <h4 className="font-bold text-gray-900 text-base md:text-lg uppercase tracking-tight">Select Your Category Fee</h4>
             </div>
-            <div>
-              <h4 className="font-bold text-gray-900 text-base md:text-lg">Step 1: Make your payment</h4>
-              <p className="text-gray-600 text-xs md:text-sm leading-relaxed mt-1">
-                Transfer ₦5,000 to the account below. Keep your receipt/screenshot safe.
-              </p>
+            
+            <div className="space-y-2">
+              {fees.map((item, idx) => (
+                <div key={idx} className="flex justify-between items-center p-3 bg-gray-50 rounded-xl border border-gray-100">
+                  <span className="text-sm font-semibold text-gray-700">{item.category}</span>
+                  <span className="text-lg font-black text-emerald-700">{item.price}</span>
+                </div>
+              ))}
             </div>
+            <p className="text-[10px] text-gray-400 italic mt-3 text-center uppercase tracking-wider">
+              Ensure you pay the correct amount for your category
+            </p>
           </motion.div>
 
-          {/* Step 2: Account Details Card (The "ATM" Card) */}
+          {/* Step 2: Account Details Card */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -82,27 +97,27 @@ export const PaymentPage = () => {
 
                 <div>
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Account Name</p>
-                    <p className="font-bold text-sm md:text-base leading-tight">TIMSAN OYO STATE CONFERENCE</p>
+                    <p className="font-bold text-sm md:text-base leading-tight uppercase">TIMSAN OYO STATE CONFERENCE</p>
                 </div>
             </div>
           </motion.div>
 
-          {/* Step 3: The Form Button */}
+          {/* Step 3: Submission Button */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="bg-white p-6 md:p-8 rounded-2xl border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-center"
           >
-            <h4 className="font-bold text-base md:text-lg mb-1">Step 2: Submit your details</h4>
-            <p className="text-gray-500 mb-6 text-xs italic">Upload your screenshot to the form below.</p>
+            <h4 className="font-bold text-base md:text-lg mb-1">Step 2: Submit Proof of Payment</h4>
+            <p className="text-gray-500 mb-6 text-xs italic">Upload your screenshot to the official form below.</p>
             <a 
               href="https://forms.gle/zxf3Zx12BNBKKjgTA" 
               target="_blank"
               rel="noreferrer"
-              className="inline-block w-full bg-emerald-600 text-white font-black py-3.5 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              className="inline-block w-full bg-emerald-600 text-white font-black py-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-emerald-700 active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all uppercase tracking-widest text-sm"
             >
-              OPEN REGISTRATION FORM
+              Open Registration Form
             </a>
           </motion.div>
           

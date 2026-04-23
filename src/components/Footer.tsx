@@ -28,11 +28,14 @@ export const Footer = () => {
             href="mailto:timsan.oyocampandconference@gmail.com" 
             className="hover:text-emerald-400 transition-colors break-all px-4 md:px-0"
           >
-            timsan.oyocampandconference@gmail.com
+            timsanoyostate@gmail.com
           </a>
           <span className="hidden md:block text-gray-700">|</span>
-          <a href="tel:+2348100000000" className="hover:text-emerald-400 transition-colors">
-            +234 810 000 0000
+          <a href="tel:+2348130089797" className="hover:text-emerald-400 transition-colors">
+            +234 8130089797
+          </a>
+            <a href="tel:+2349057647997" className="hover:text-emerald-400 transition-colors">
+            +234 9057647997
           </a>
         </div>
 
