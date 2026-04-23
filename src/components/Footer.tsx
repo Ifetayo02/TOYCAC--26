@@ -60,7 +60,7 @@ export const Footer = () => {
         {/* Copyright */}
         <div className="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-medium">
           <p>© {currentYear} TIMSAN Oyo State. All Rights Reserved.</p>
-          <p className="mt-1 text-gray-600">Built with love by Abdulqoyum</p>
+          <p className="mt-1 text-gray-600">Designed and built by Abdulqoyum</p>
         </div>
         
       </div>
