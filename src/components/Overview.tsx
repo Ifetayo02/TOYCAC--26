@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { Users, Calendar, MapPin, Zap, Monitor, Camera,ArrowRight } from "lucide-react";
-import imgBrotherhood from "../assets/download.jpg";
-import imgEmpowerment from "../assets/empowerment.jpg";
-import imgLittle from "../assets/little.jpg";
+import imgBrotherhood from "../assets/brothers.jpg";
+import imgCompetition from "../assets/competition.jpg"
+import imgZikr from "../assets/Zikr.jpg"; 
+import imgPanel from "../assets/Panel Session.jpg";
+import imgMedical from "../assets/Medical Checkup.jpg";
 import imgMosque from "../assets/Akhbarudeen.jpg";
 import { useNavigate } from "react-router-dom";
 const features = [
@@ -29,9 +31,11 @@ const features = [
 // Abdulqoyum: Add your image paths here
 const gallery = [
   { url: imgBrotherhood, label: "Brotherhood" },
-  { url: imgEmpowerment, label: "Empowerment through skill development" },
-  { url: imgLittle, label: "Bright Minds, Bold Future" },
+  { url: imgZikr, label: "Zikr Sessions" },
+  { url: imgPanel, label: "Panel Sessions" },
   { url: imgMosque, label: "Akhbarudeen Mosque" },
+   { url: imgCompetition, label: "Quranic & Islamic Competition" },
+    { url: imgMedical, label: "Free Medical Checkup" }
 ];
 
 export const Overview = () => {

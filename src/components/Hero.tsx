@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import heroImage from "../assets/download.jpg"; 
+import heroImage from "../assets/Akhbarudeen.jpg"; 
 import { useNavigate } from "react-router-dom";
 
 export const Hero = () => {
