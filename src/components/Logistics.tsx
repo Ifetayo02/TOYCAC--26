@@ -73,7 +73,7 @@ export const Logistics = () => {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 md:gap-y-4">
                 {[
-                  { title: 'Spiritual Tools', desc: "Qur'an, Prayer Mat, Du'a Book", icon: <BookOpen /> },
+                  { title: 'Spiritual Tools', desc: "Qur'an, Prayer Mat, Rosary", icon: <BookOpen /> },
                   { title: 'Personal Hygiene', desc: 'Soap, Towel, Sanitary Needs', icon: <Bath /> },
                   { title: 'Warm Clothing', desc: 'Hoodie, Sweater, Socks, Scarf', icon: <Shirt /> },
                   { title: 'Sleeping Gear', desc: 'Blanket, Wrapper, Mat, Pillow', icon: <Bed /> },
