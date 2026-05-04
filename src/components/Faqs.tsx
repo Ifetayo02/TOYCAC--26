@@ -45,7 +45,7 @@ export const FaqAccordion = () => {
             </span>
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3">Frequently Asked</h2>
-          <p className="text-gray-600 text-sm md:text-base px-4">Everything you need to know before TCAC '26.</p>
+          <p className="text-gray-600 text-sm md:text-base px-4">Everything you need to know before TOYCAC '26.</p>
         </div>
 
         {/* Accordion List */}
@@ -97,7 +97,7 @@ export const FaqAccordion = () => {
           <p className="font-bold text-sm md:text-base text-gray-800 mb-4">Still confused about something?</p>
           <a 
             href="https://wa.me/+2347059098620?text=Hello%20TCAC%20Secretariat%2C%20I%20have%20a%20question%20about%20the%20upcoming%20camp." 
-            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 md:px-8 py-3 rounded-xl text-sm md:text-base font-black border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[0px] transition-all"
+            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 md:px-8 py-3 rounded-xl text-sm md:text-base font-black border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 active:translate-y-0 transition-all"
           >
             <MessageCircle size={18} /> Message Secretariat
           </a>

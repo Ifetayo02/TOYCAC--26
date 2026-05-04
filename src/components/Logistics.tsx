@@ -29,7 +29,7 @@ export const Logistics = () => {
             Logistics <span className='text-emerald-600'>& Venue</span>
           </h2>
           <p className="text-gray-600 text-xs md:text-base max-w-xl mx-auto px-2 leading-relaxed">
-            Plan your journey to Ogbomosho for TCAC '26. We've handled the essentials so you can focus on the experience.
+            Plan your journey to Ogbomosho for TOYCAC '26. We've handled the essentials so you can focus on the experience.
           </p>
         </div>
 
@@ -52,7 +52,7 @@ export const Logistics = () => {
               </div>
 
               <div className="flex gap-3 md:gap-4">
-                <div className="bg-emerald-100 p-2 md:p-3 rounded-xl h-fit flex-shrink-0">
+                <div className="bg-emerald-100 p-2 md:p-3 rounded-xl h-fit shrink-0">
                   <MapPin className="w-5 h-5 md:w-6 md:h-6 text-emerald-700" />
                 </div>
                 <div>
@@ -93,7 +93,7 @@ export const Logistics = () => {
 
               {/* Prohibited Items Section */}
               <div className="bg-red-50 p-3 md:p-4 rounded-xl border-2 border-dashed border-red-200 mt-5 md:mt-6 text-red-900 flex items-center gap-3">
-                <Ban size={18} className="text-red-700 flex-shrink-0" />
+                <Ban size={18} className="text-red-700 shrink-0" />
                 <p className="text-[10px] md:text-[11px] leading-snug">
                   <span className="font-black uppercase">Do Not Bring:</span> Electric Iron, Boiling Ring, Gas Stove, Large Electronics, or Sharp Objects.
                 </p>
@@ -110,7 +110,7 @@ export const Logistics = () => {
                   <span className="uppercase text-[8px] md:text-[9px] font-black tracking-widest text-emerald-100">Status: Active</span>
                 </div>
                 <div className="bg-black/20 px-2 py-0.5 md:px-3 md:py-1 rounded-full border border-white/10 text-[8px] md:text-[10px] font-bold uppercase">
-                  TIMSAN LAUTECH '26
+                  TOYCAC '26
                 </div>
               </div>
               

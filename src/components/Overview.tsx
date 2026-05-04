@@ -52,7 +52,7 @@ export const Overview = () => {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-black text-gray-900 mb-3"
           >
-            What to Expect at <span className="text-emerald-600">TCAC '26</span>
+            What to Expect at <span className="text-emerald-600">TOYCAC '26</span>
           </motion.h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-lg leading-relaxed">
             Intensive growth designed to bridge the gap between spiritual devotion 
@@ -120,7 +120,7 @@ export const Overview = () => {
 >
   <div className="space-y-4 text-center md:text-left flex-1">
     <div className="inline-block bg-black/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20">
-      TIMSAN LAUTECH '26
+      TOYCAC '26
     </div>
     
     <h3 className="text-4xl md:text-6xl font-black italic leading-[0.9] tracking-tighter">
