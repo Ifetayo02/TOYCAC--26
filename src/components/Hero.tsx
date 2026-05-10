@@ -6,7 +6,7 @@ export const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative px-6 pt-36 py-12 md:py-32 overflow-hidden bg-[#F0FDF4]">
+    <section className="relative px-6 pt-24 py-12 md:py-32 overflow-hidden bg-[#F0FDF4]">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
         
         {/* Text Content - Added 'text-center' for mobile */}
