@@ -88,11 +88,11 @@ export const Overview = () => {
         <div className="mb-16 md:mb-24 overflow-hidden">
           <div className="flex items-center gap-2 mb-6 px-4 md:px-0">
             <Camera className="text-emerald-600 w-5 h-5" />
-            <span className="font-black uppercase tracking-widest text-[10px] md:text-xs text-emerald-600">The Atmosphere / Cinematic View</span>
+            <span className="font-black uppercase tracking-widest text-[10px] md:text-xs text-emerald-600">The Atmosphere</span>
           </div>
           
           <div className="relative flex overflow-x-hidden group">
-            <div className="flex py-4 whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]  min-w-max">
+            <div className="flex py-4 whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
               {[...gallery, ...gallery].map((img, idx) => (
                 <motion.div 
                   key={idx}
