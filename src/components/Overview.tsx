@@ -54,18 +54,17 @@ export const Overview = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-black text-gray-900 mb-3 uppercase italic"
+            className="text-3xl md:text-6xl font-black text-gray-900 mb-3 uppercase italic leading-none"
           >
-            What to Expect at <span className="text-emerald-600">TOYCAC '26</span>
+            Expect <span className="text-emerald-600">Excellence</span>
           </motion.h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-lg leading-relaxed">
-            Intensive growth designed to bridge the gap between spiritual devotion 
-            and professional excellence.
+            Bridging the gap between spiritual devotion and professional leadership at TOYCAC '26.
           </p>
         </div>
 
-        {/* Features Grid - Staggered Animation */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-24">
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-20">
           {features.map((f, i) => (
             <motion.div
               key={i}
@@ -73,74 +72,84 @@ export const Overview = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className={`p-6 md:p-8 border-2 border-black rounded-3xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${f.color}`}
+              className={`p-6 md:p-10 border-2 border-black rounded-[2rem] shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] md:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] ${f.color}`}
             >
-              <div className="mb-4 bg-white border-2 border-black w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <div className="mb-6 bg-white border-2 border-black w-14 h-14 rounded-2xl flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
                 {f.icon}
               </div>
-              <h3 className="text-lg md:text-xl font-black text-gray-900 mb-2 uppercase tracking-tight">{f.title}</h3>
+              <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-3 uppercase tracking-tight">{f.title}</h3>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed font-medium">{f.desc}</p>
             </motion.div>
           ))}
         </div>
 
-        {/* --- PERFORMANCE-OPTIMIZED MARQUEE GALLERY --- */}
-        <div className="mb-16 md:mb-24 overflow-hidden">
-          <div className="flex items-center gap-2 mb-6 px-4 md:px-0">
+        {/* --- CINEMATIC AUTO-SCROLLING GALLERY --- */}
+        <div className="mb-20 md:mb-32 relative overflow-hidden">
+          <div className="flex items-center gap-2 mb-8 px-4 md:px-0">
             <Camera className="text-emerald-600 w-5 h-5" />
-            <span className="font-black uppercase tracking-widest text-[10px] md:text-xs text-emerald-600">The Atmosphere</span>
+            <span className="font-black uppercase tracking-widest text-[10px] text-emerald-600">The Atmosphere</span>
           </div>
           
-          <div className="relative flex overflow-x-hidden group">
-            <div className="flex py-4 whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
+          <div className="flex overflow-hidden py-4">
+            <motion.div 
+              className="flex flex-nowrap"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{
+                duration: 25, // Adjust speed: lower is faster
+                ease: "linear",
+                repeat: Infinity,
+              }}
+            >
+              {/* Double array for seamless loop */}
               {[...gallery, ...gallery].map((img, idx) => (
-                <motion.div 
+                <div 
                   key={idx}
-                  className="inline-block mx-3 min-w-[260px] md:min-w-[320px] aspect-[4/5] bg-gray-100 rounded-[2rem] overflow-hidden border-2 border-black shadow-[6px_6px_0px_0px_rgba(5,150,105,1)] relative"
-                  whileTap={{ scale: 0.96 }}
+                  className="flex-shrink-0 mx-3 w-[280px] md:w-[380px] aspect-[4/5] bg-gray-100 rounded-[2.5rem] overflow-hidden border-2 border-black shadow-[8px_8px_0px_0px_rgba(5,150,105,1)] relative"
                 >
                   <img 
                     src={img.url} 
                     alt={img.label} 
-                    loading="lazy"
                     className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-700"
                   />
-                  <div className="absolute bottom-4 left-4">
-                    <span className="bg-white px-3 py-1.5 rounded-full text-[10px] font-black border-2 border-black uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                  <div className="absolute bottom-6 left-6">
+                    <span className="bg-white px-4 py-2 rounded-full text-[10px] font-black border-2 border-black uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
                       {img.label}
                     </span>
                   </div>
-                </motion.div>
+                </div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* CTA Card */}
+        {/* --- CALL TO ACTION CARD --- */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="bg-emerald-600 text-white p-6 md:p-10 rounded-[2.5rem] border-2 md:border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row justify-between items-center gap-8"
+          className="bg-emerald-600 text-white p-8 md:p-14 rounded-[3rem] border-2 md:border-4 border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row justify-between items-center gap-10"
         >
-          <div className="space-y-4 text-center md:text-left flex-1">
-            <h3 className="text-4xl md:text-6xl font-black italic leading-[0.9] tracking-tighter uppercase">
+          <div className="space-y-5 text-center md:text-left flex-1">
+            <div className="inline-block bg-black/20 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20">
+              Registration Open
+            </div>
+            <h3 className="text-5xl md:text-7xl font-black italic leading-[0.85] tracking-tighter uppercase">
               IGNITE YOUR <br /> 
               <span className="text-black/30">PURPOSE.</span>
             </h3>
-            <p className="text-emerald-50 text-sm md:text-xl font-medium max-w-md">
-              Unparalleled growth and spiritual elevation. Don't just witness the legacy, be part of it.
+            <p className="text-emerald-50 text-sm md:text-xl font-medium max-w-md leading-snug">
+              Don't just witness the legacy, be part of the transformation at Ogbomosho.
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 w-full md:w-64">
+          <div className="w-full md:w-72 shrink-0">
             <motion.button 
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/register')}
-              className="bg-black text-white p-5 rounded-2xl border-2 border-emerald-400 font-black text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]"
+              className="w-full bg-black text-white p-6 rounded-2xl border-2 border-emerald-400 font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.4)] transition-all"
             >
-              Claim Your Spot <ArrowRight size={18} />
+              Get Tickets <ArrowRight size={20} className="text-emerald-400" />
             </motion.button>
           </div>
         </motion.div>
