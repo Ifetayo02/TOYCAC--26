@@ -9,7 +9,7 @@ import imgCompetition from "../assets/competition.jpg";
 import imgZikr from "../assets/Zikr.jpg"; 
 import imgPanel from "../assets/Panel Session.jpg";
 import imgMedical from "../assets/Medical Checkup.jpg";
-import imgMosque from "../assets/Akhbarudeen.jpg";
+import imgMosque from "../assets/ansarudeen.jpg";
 
 const features = [
   {
@@ -36,7 +36,7 @@ const gallery = [
   { url: imgBrotherhood, label: "Brotherhood" },
   { url: imgZikr, label: "Zikr Sessions" },
   { url: imgPanel, label: "Panel Sessions" },
-  { url: imgMosque, label: "Akhbarudeen Mosque" },
+  { url: imgMosque, label: "Ansarudeen Central Mosque" },
   { url: imgCompetition, label: "Quranic Competition" },
   { url: imgMedical, label: "Medical Checkup" }
 ];

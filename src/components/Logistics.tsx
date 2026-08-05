@@ -58,7 +58,7 @@ export const Logistics = () => {
                 <div>
                   <h4 className="font-bold text-sm md:text-lg text-gray-900">Venue</h4>
                   <p className="text-gray-600 font-medium text-xs md:text-base leading-tight">
-                    Akhbarudeen Central Mosque, Caretaker Area, Ogbomosho.
+                    Ansarudeen Central Mosque, Oke Ado Akintola, Ogbomosho.
                   </p>
                   <p className="text-[10px] md:text-sm text-emerald-700 font-bold uppercase mt-1">Oyo State, Nigeria.</p>
                 </div>

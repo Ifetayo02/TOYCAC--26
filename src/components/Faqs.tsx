@@ -9,7 +9,7 @@ const faqData = [
   },
     {
     question:"When & where it happens?",
-    answer: "Rooted in a legacy of consistency, the Oyo State Zone has successfully organized this conference annually, alternating host institutions to ensure a balanced and inclusive experience for all Muslim students in the state.This year's camp is proudly hosted by TIMSAN LAUTECH, Ogbomosho, and will be held at the Akhbarudeen Central Mosque, Caretaker Area, Ogbomosho from Thursday, 6th to Sunday, 9th August 2026."
+    answer: "Rooted in a legacy of consistency, the Oyo State Zone has successfully organized this conference annually, alternating host institutions to ensure a balanced and inclusive experience for all Muslim students in the state.This year's camp is proudly hosted by TIMSAN LAUTECH, Ogbomosho, and will be held at the Ansarudeen Central Mosque, Oke Ado Akintola Area, Ogbomosho from Thursday, 6th to Sunday, 9th August 2026."
   },
     {
     question: "How do I register for the camp?",
