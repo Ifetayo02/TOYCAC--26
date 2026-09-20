@@ -26,8 +26,24 @@
 }
 
 @layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-surface text-on-surface font-body selection:bg-primary/20 selection:text-primary;
+    overflow-x: hidden;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
   }
 }
 

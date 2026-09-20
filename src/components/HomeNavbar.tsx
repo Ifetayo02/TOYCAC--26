@@ -19,7 +19,7 @@ export const HomeNavbar = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-6 py-3">
         <div onClick={() => navigate("/")} className="flex items-center gap-2 cursor-pointer">
           <img src={logo} alt="Logo" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
-          <span className="text-emerald-700 font-black text-lg tracking-tight hidden xs:block">TIMSAN Oyo State</span>
+          <span className="text-emerald-700 font-black text-sm sm:text-lg tracking-tight hidden sm:block">TIMSAN Oyo State</span>
         </div>
 
         <div className="hidden lg:flex items-center gap-8 font-medium text-sm">
@@ -34,7 +34,7 @@ export const HomeNavbar = () => {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate("/camp")}
-            className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-xs md:text-sm font-bold shadow-md"
+            className="bg-emerald-600 text-white px-2.5 sm:px-4 py-2 rounded-lg text-[10px] sm:text-xs md:text-sm font-bold shadow-md whitespace-nowrap"
           >
             This Year's Camp
           </motion.button>

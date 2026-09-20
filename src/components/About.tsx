@@ -64,12 +64,12 @@ export const About = () => {
         transition={{ duration: 0.6 }}
         className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10 mb-12 md:mb-16"
       >
-        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 md:border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] shrink-0">
-          <img src={timsanLogo} alt="TIMSAN logo" className="w-full h-full object-cover" />
+        <div className="w-full max-w-xs sm:w-72 md:w-96 aspect-[4/3] rounded-2xl overflow-hidden border-2 md:border-4 border-black bg-[#F0FDF4] p-6 md:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] shrink-0">
+          <img src={timsanLogo} alt="TIMSAN logo" className="w-full h-full object-contain" />
         </div>
-        <div className="bg-emerald-600 text-white px-8 py-5 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-center">
-          <p className="text-3xl md:text-4xl font-black italic leading-none">10+</p>
-          <p className="text-[10px] font-bold uppercase tracking-widest mt-1">Tertiary Institutions</p>
+        <div className="bg-emerald-600 text-white px-10 py-8 md:px-14 md:py-10 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-center">
+          <p className="text-4xl md:text-6xl font-black italic leading-none">10+</p>
+          <p className="text-[11px] md:text-xs font-bold uppercase tracking-widest mt-2">Tertiary Institutions</p>
         </div>
       </motion.div>
 

@@ -6,8 +6,8 @@ export const HomeHero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative px-6 pt-24 py-12 md:py-32 overflow-hidden bg-[#F0FDF4]">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
+    <section className="relative px-4 sm:px-6 pt-24 py-12 md:py-32 overflow-hidden bg-[#F0FDF4]">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 sm:gap-10 md:gap-16">
         <div className="w-full md:w-1/2 space-y-6 md:space-y-8 z-10 text-center md:text-left">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -19,7 +19,7 @@ export const HomeHero = () => {
               TIMSAN Oyo State
             </span>
 
-            <h1 className="text-4xl md:text-7xl font-black text-gray-900 leading-[1.1] tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-7xl font-black text-gray-900 leading-[1.1] tracking-tight">
               Uniting Tijaniyyah Muslim Students <br className="hidden md:block" />
               <span className="text-emerald-600">Across Oyo State</span>
             </h1>
