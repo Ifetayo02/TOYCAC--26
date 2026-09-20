@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { UserRound } from "lucide-react";
 import aasiyah from "../assets/Aasiyah.jpg";
 import ags from "../assets/AGS.jpg";
-import chiefWhip3 from "../assets/Chief Whip 3.jpg";
+import chiefWhip3 from "../assets/hikmah.jpg";
 import dhikroh from "../assets/Dhikroh.jpg";
 import genSec from "../assets/Gen. Sec.jpg";
 import maryam from "../assets/Maryam.jpg";
@@ -19,7 +19,7 @@ import rokeeb from "../assets/Rokeeb.jpg";
 import saheed from "../assets/Saheed.jpg";
 import tiletChairman from "../assets/Tilet Chairman.jpg";
 import tilSec from "../assets/Til Sec.jpg";
-
+import cw2 from "../assets/saidat.jpg";
 /**
  * Executive photos are imported from the local assets folder and attached to
  * each matching executive record below.
@@ -50,10 +50,10 @@ const executives: Executive[] = [
   { name: "Seyyid Aderemi Muhammad", position: "Welfare Officer 2", institution: "MULCOED", image: muhammad },
   { name: "Seyyida Jimoh Mariam", position: "Member of TILETS Committee", institution: "LAUTECH", image: maryam },
   { name: "Seyyid Obisesan Rokeeb", position: "PRO 2", institution: "UI", image: rokeeb },
-  { name: "Seyyida Okunola Muiz", position: "Fin. Secretary 2", institution: "EAUED", image: muheez },
+  { name: "Seyyid Okunola Muiz", position: "Fin. Secretary 2", institution: "EAUED", image: muheez },
+    { name: "Seyyida Jimoh Saidat", position: "Chief Whip 2", institution: "TPI", image: cw2 },
   
   
-  { name: "TBA", position: "Ex-Officio II", institution: "TBA" },
 ];
 
 export const Executives = () => {

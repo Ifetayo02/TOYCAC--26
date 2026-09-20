@@ -47,8 +47,6 @@ type RegistrationResult = { reference: string };
 export const PaymentPage = () => {
   const [step, setStep] = useState<"form" | "pending">("form");
   const [form, setForm] = useState<FormState>(initialForm);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const [receiptPreview, setReceiptPreview] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -61,13 +59,6 @@ export const PaymentPage = () => {
 
   const update = (key: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
-
-  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setPhotoFile(file);
-    setPhotoPreview(URL.createObjectURL(file));
-  };
 
   const handleReceipt = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -109,15 +100,12 @@ export const PaymentPage = () => {
 
     setSubmitting(true);
     try {
-      const [photoUrl, receiptUrl] = await Promise.all([
-        photoFile ? uploadImage(photoFile) : Promise.resolve(null),
-        uploadImage(receiptFile),
-      ]);
+      const receiptUrl = await uploadImage(receiptFile);
 
       const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, photoUrl, receiptUrl }),
+        body: JSON.stringify({ ...form, receiptUrl }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Registration failed");
@@ -216,10 +204,6 @@ export const PaymentPage = () => {
                 <Field label="Medical Conditions" hint="Optional — allergies, medication, anything camp medical staff should know">
                   <textarea value={form.medicalConditions} onChange={update("medicalConditions")} className={`${inputClass} min-h-[80px]`} placeholder="None" />
                 </Field>
-              </Section>
-
-              <Section title="Profile Photo" hint="Optional — used for your camp ID and the gallery">
-                <PhotoPicker preview={photoPreview} onChange={handlePhoto} />
               </Section>
 
               <Section title="Payment Receipt" hint="Required — screenshot of the transfer you just made">
