@@ -1,145 +1,378 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { CreditCard, Copy, Check, ArrowLeft, Users, ArrowRight } from "lucide-react";
+import {
+  ArrowLeft, ArrowRight, Loader2, ImagePlus, CheckCircle2, AlertCircle,
+} from "lucide-react";
 import { Link } from "react-router-dom";
-import { PaymentNavbar } from "../components/PaymentNavbar"; // Import Navbar
-import { Footer } from "../components/Footer"; // Import Footer
+import { PaymentNavbar } from "../components/PaymentNavbar";
+import { Footer } from "../components/Footer";
+
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "your-cloud-name";
+// Create this as an *unsigned* upload preset in Cloudinary Console ->
+// Settings -> Upload -> Upload presets -> Add. Unsigned is fine here since
+// it only allows uploads, not deletes/reads of your whole library.
+const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || "tcac_profile_photos";
+
+const FEES = [
+  { value: "timsanite", label: "Timsanite", price: 5000 },
+  { value: "non_timsanite", label: "Non-Timsanite", price: 6000 },
+  { value: "child", label: "Child", price: 3000 },
+  { value: "iotb", label: "IOTB", price: 7000 },
+] as const;
+// NOTE: these four prices are placeholders — tell me the real ones for
+// Timsanite / Non-Timsanite / Child / IOTB and I'll swap them in.
+
+const BANK = { name: "FCMB", number: "1027278453", accountName: "TIMSAN OYO STATE" };
+
+type FormState = {
+  fullName: string;
+  gender: "brother" | "sister" | "";
+  phone: string;
+  email: string;
+  institution: string;
+  level: string;
+  nextOfKinName: string;
+  nextOfKinPhone: string;
+  medicalConditions: string;
+  category: (typeof FEES)[number]["value"] | "";
+};
+
+const initialForm: FormState = {
+  fullName: "", gender: "", phone: "", email: "", institution: "", level: "",
+  nextOfKinName: "", nextOfKinPhone: "", medicalConditions: "", category: "",
+};
+
+type RegistrationResult = { reference: string };
 
 export const PaymentPage = () => {
-  const [copied, setCopied] = useState(false);
-  const accountNumber = "1027278453"; // Updated to your new FCMB number
+  const [step, setStep] = useState<"form" | "pending">("form");
+  const [form, setForm] = useState<FormState>(initialForm);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  const [receiptPreview, setReceiptPreview] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<RegistrationResult | null>(null);
 
-  // Ensures the user starts at the top of the page on load
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [step]);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(accountNumber);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const update = (key: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPhotoFile(file);
+    setPhotoPreview(URL.createObjectURL(file));
   };
 
-  const fees = [
-    { category: "Children", price: "3,000" },
-    { category: "Timsanite / Non-Timsanite", price: "5,000" },
-    { category: "IOTB", price: "7,000" },
-  ];
+  const handleReceipt = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setReceiptFile(file);
+    setReceiptPreview(URL.createObjectURL(file));
+  };
+
+  const uploadImage = async (file: File): Promise<string> => {
+    const body = new FormData();
+    body.append("file", file);
+    body.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+      method: "POST",
+      body,
+    });
+    if (!res.ok) throw new Error("Upload failed");
+    const data = await res.json();
+    return data.secure_url as string;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    const required: (keyof FormState)[] = [
+      "fullName", "gender", "phone", "email", "institution", "level",
+      "nextOfKinName", "nextOfKinPhone", "category",
+    ];
+    const missing = required.find((k) => !form[k]);
+    if (missing) {
+      setError("Please fill in all required fields before submitting.");
+      return;
+    }
+    if (!receiptFile) {
+      setError("Please transfer the fee first, then attach a screenshot of your receipt.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const [photoUrl, receiptUrl] = await Promise.all([
+        photoFile ? uploadImage(photoFile) : Promise.resolve(null),
+        uploadImage(receiptFile),
+      ]);
+
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, photoUrl, receiptUrl }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Registration failed");
+
+      setResult(data);
+      setStep("pending");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F0FDF4] flex flex-col">
-      {/* 1. Integrated Payment Navbar */}
       <PaymentNavbar />
-
-      {/* 2. Main Content Wrapper - Added pt-24 to prevent navbar overlap */}
       <main className="flex-grow pt-24 pb-20 px-4 md:px-6">
         <div className="max-w-3xl mx-auto">
-          
-          {/* Progress Header */}
           <div className="mb-8 text-center">
             <Link to="/" className="inline-flex items-center gap-2 text-emerald-700 font-bold mb-6 hover:underline text-xs md:text-sm uppercase tracking-tight">
               <ArrowLeft size={16} /> Back to Home
             </Link>
             <div className="flex justify-center gap-2 mb-4">
               <div className="h-1.5 w-12 bg-emerald-600 rounded-full shadow-sm"></div>
-              <div className="h-1.5 w-12 bg-gray-200 rounded-full"></div>
+              <div className={`h-1.5 w-12 rounded-full ${step === "pending" ? "bg-emerald-600" : "bg-gray-200"}`}></div>
             </div>
-            <h1 className="text-2xl md:text-4xl font-black text-gray-900 leading-tight italic">Finalize Registration</h1>
-            <p className="text-gray-600 text-xs md:text-base mt-1">Complete your payment to secure your slot at TCAC '26.</p>
+            <h1 className="text-2xl md:text-4xl font-black text-gray-900 leading-tight italic">
+              {step === "form" ? "Register for TCAC '26" : "Registration Submitted"}
+            </h1>
+            <p className="text-gray-600 text-xs md:text-base mt-1">
+              {step === "form"
+                ? "Make your transfer first, then fill this in and attach your receipt."
+                : "We've got it — your house is assigned the moment it's reviewed."}
+            </p>
           </div>
 
-          <div className="space-y-6 md:space-y-10">
-            
-            {/* Step 1: Fee Schedule Card */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white p-5 md:p-8 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-emerald-100 p-2 rounded-xl">
-                  <Users className="w-5 h-5 text-emerald-700" />
-                </div>
-                <h4 className="font-black text-gray-900 text-sm md:text-base uppercase tracking-tight">Category Fee</h4>
-              </div>
-              
-              <div className="space-y-3">
-                {fees.map((item, idx) => (
-                  <div key={idx} className="flex justify-between items-center p-4 bg-gray-50 rounded-2xl border-2 border-black/5 hover:border-emerald-200 transition-colors">
-                    <span className="text-xs md:text-sm font-bold text-gray-700">{item.category}</span>
-                    <span className="text-base md:text-xl font-black text-emerald-700 italic">₦{item.price}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="text-[9px] md:text-[10px] text-gray-400 italic mt-4 text-center uppercase tracking-widest">
-                Ensure you pay the correct amount for your category
-              </p>
-            </motion.div>
-
-            {/* Step 2: Account Details Card */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-emerald-600 p-6 md:p-10 rounded-[2rem] border-2 md:border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] md:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] text-white"
-            >
-              <div className="flex justify-between items-center mb-6">
-                 <span className="bg-emerald-700 px-3 py-1 rounded-full text-[10px] font-black border border-emerald-400 uppercase tracking-tighter">Official Account</span>
-                 <CreditCard className="w-7 h-7 text-emerald-200 opacity-60" />
-              </div>
-
-              <div className="bg-white p-5 md:p-8 rounded-3xl text-gray-900 shadow-inner">
-                  <div className="mb-4">
-                      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Bank Name</p>
-                      <p className="font-black text-xl md:text-2xl text-emerald-900">FCMB</p>
-                  </div>
-                  
-                  <div className="mb-5">
-                      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Account Number</p>
-                      <div className="flex justify-between items-center bg-gray-50 p-3 md:p-4 rounded-2xl border-2 border-dashed border-emerald-100">
-                          <span className="text-xl md:text-3xl font-mono font-black tracking-tight text-gray-800">{accountNumber}</span>
-                          <button 
-                            onClick={handleCopy} 
-                            className="bg-emerald-600 text-white p-2.5 rounded-xl hover:bg-emerald-700 active:scale-90 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                          >
-                              {copied ? <Check size={20} /> : <Copy size={20} />}
-                          </button>
-                      </div>
-                  </div>
-
+          {step === "form" && (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="bg-black text-white p-5 md:p-8 rounded-2xl border-2 border-emerald-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-3">Step 1 — Pay First</p>
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Account Name</p>
-                      <p className="font-black text-xs md:text-base leading-tight uppercase tracking-tight text-gray-700">TIMSAN OYO STATE</p>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-widest">Bank</p>
+                    <p className="font-black text-lg">{BANK.name}</p>
                   </div>
+                  <div>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-widest">Account No.</p>
+                    <p className="font-black text-lg font-mono">{BANK.number}</p>
+                  </div>
+                </div>
+                <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-3">Account Name</p>
+                <p className="font-black text-sm">{BANK.accountName}</p>
+                <p className="text-[11px] text-emerald-300 mt-3 italic">
+                  Transfer the amount for your category below, take a screenshot of the receipt, then fill the rest of this form.
+                </p>
               </div>
-            </motion.div>
 
-            {/* Step 3: Submission Button */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white p-6 md:p-10 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-center"
-            >
-              <h4 className="font-black text-sm md:text-lg mb-1 uppercase">Step 2: Submit Proof</h4>
-              <p className="text-gray-500 mb-8 text-[11px] md:text-xs italic">Your slot is not reserved until you upload your proof of payment.</p>
-              
-              <a 
-                href="https://forms.gle/zxf3Zx12BNBKKjgTA" 
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex w-full items-center justify-center gap-3 bg-black text-white font-black py-5 rounded-xl border-2 border-emerald-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] hover:bg-gray-900 active:translate-y-1 transition-all uppercase tracking-widest text-sm"
+              <Section title="Your Details">
+                <Field label="Full Name" required>
+                  <input value={form.fullName} onChange={update("fullName")} className={inputClass} placeholder="e.g. Fatima Abdullahi" />
+                </Field>
+                <div className="grid grid-cols-2 gap-4">
+                  <Field label="Gender" required>
+                    <select value={form.gender} onChange={update("gender")} className={inputClass}>
+                      <option value="">Select</option>
+                      <option value="brother">Brother</option>
+                      <option value="sister">Sister</option>
+                    </select>
+                  </Field>
+                  <Field label="Level" required>
+                    <input value={form.level} onChange={update("level")} className={inputClass} placeholder="e.g. 300L" />
+                  </Field>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field label="Phone Number" required>
+                    <input value={form.phone} onChange={update("phone")} className={inputClass} placeholder="080..." />
+                  </Field>
+                  <Field label="Email" required>
+                    <input type="email" value={form.email} onChange={update("email")} className={inputClass} placeholder="you@email.com" />
+                  </Field>
+                </div>
+                <Field label="Institution" required>
+                  <input value={form.institution} onChange={update("institution")} className={inputClass} placeholder="e.g. LAUTECH" />
+                </Field>
+              </Section>
+
+              <Section title="Emergency Contact">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field label="Next of Kin Name" required>
+                    <input value={form.nextOfKinName} onChange={update("nextOfKinName")} className={inputClass} placeholder="Parent / Guardian name" />
+                  </Field>
+                  <Field label="Next of Kin Phone" required>
+                    <input value={form.nextOfKinPhone} onChange={update("nextOfKinPhone")} className={inputClass} placeholder="080..." />
+                  </Field>
+                </div>
+                <Field label="Medical Conditions" hint="Optional — allergies, medication, anything camp medical staff should know">
+                  <textarea value={form.medicalConditions} onChange={update("medicalConditions")} className={`${inputClass} min-h-[80px]`} placeholder="None" />
+                </Field>
+              </Section>
+
+              <Section title="Profile Photo" hint="Optional — used for your camp ID and the gallery">
+                <PhotoPicker preview={photoPreview} onChange={handlePhoto} />
+              </Section>
+
+              <Section title="Payment Receipt" hint="Required — screenshot of the transfer you just made">
+                <PhotoPicker preview={receiptPreview} onChange={handleReceipt} label="receipt screenshot" />
+              </Section>
+
+              <Section title="Registration Category">
+                <Field label="Registering As" required>
+                  <select value={form.category} onChange={update("category")} className={inputClass}>
+                    <option value="">Select a category</option>
+                    {FEES.map((f) => (
+                      <option key={f.value} value={f.value}>
+                        {f.label} — ₦{f.price.toLocaleString()}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+              </Section>
+
+              {error && (
+                <div className="flex items-center gap-2 text-red-600 bg-red-50 border-2 border-red-100 rounded-xl p-3 text-xs md:text-sm font-medium">
+                  <AlertCircle size={16} /> {error}
+                </div>
+              )}
+
+              <motion.button
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+                disabled={submitting}
+                className="w-full inline-flex items-center justify-center gap-3 bg-black text-white font-black py-5 rounded-xl border-2 border-emerald-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] hover:bg-gray-900 active:translate-y-1 transition-all uppercase tracking-widest text-sm disabled:opacity-60"
               >
-                Open Submission Form <ArrowRight size={20} className="text-emerald-400" />
-              </a>
-            </motion.div>
-            
-          </div>
+                {submitting ? <Loader2 className="animate-spin" size={20} /> : <>Continue to Payment <ArrowRight size={20} className="text-emerald-400" /></>}
+              </motion.button>
+            </form>
+          )}
+
+          {step === "pending" && result && (
+            <PendingPayment result={result} />
+          )}
         </div>
       </main>
-
-      {/* 3. Integrated Footer */}
       <Footer />
     </div>
   );
 };
+
+/* ---------- Pending Payment step ---------- */
+
+const PendingPayment = ({ result }: { result: RegistrationResult }) => {
+  const [status, setStatus] = useState<"pending" | "confirmed">("pending");
+  const [houseNumber, setHouseNumber] = useState<string | null>(null);
+  const pollRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const poll = async () => {
+      try {
+        const res = await fetch(`/api/status?reference=${result.reference}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        setStatus(data.payment_status);
+        setHouseNumber(data.house_number ?? null);
+        if (data.payment_status === "confirmed" && pollRef.current) {
+          window.clearInterval(pollRef.current);
+        }
+      } catch {
+        /* silent — next poll will retry */
+      }
+    };
+    poll();
+    pollRef.current = window.setInterval(poll, 8000); // check every 8s
+    return () => {
+      if (pollRef.current) window.clearInterval(pollRef.current);
+    };
+  }, [result.reference]);
+
+  if (status === "confirmed") {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white p-8 md:p-12 rounded-[2rem] border-2 md:border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center space-y-4"
+      >
+        <CheckCircle2 className="w-14 h-14 text-emerald-600 mx-auto" />
+        <h3 className="text-2xl md:text-3xl font-black uppercase italic">You're In!</h3>
+        <p className="text-gray-600 text-sm md:text-base">
+          Payment confirmed. A confirmation email is on its way with your details.
+        </p>
+        {houseNumber && (
+          <div className="inline-block bg-emerald-600 text-white px-8 py-4 rounded-2xl border-2 border-black">
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Your House</p>
+            <p className="text-3xl font-black italic">{houseNumber}</p>
+          </div>
+        )}
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white p-8 md:p-12 rounded-[2rem] border-2 md:border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center space-y-4"
+    >
+      <Loader2 className="w-10 h-10 text-emerald-600 animate-spin mx-auto" />
+      <h3 className="text-xl md:text-2xl font-black uppercase italic">Under Review</h3>
+      <p className="text-gray-500 text-xs md:text-sm max-w-md mx-auto">
+        We've got your details and receipt. Nothing else to do — this page updates itself the
+        moment it's reviewed, and your confirmation email (with house number) goes out automatically.
+      </p>
+      <p className="text-[10px] font-mono text-gray-400">Reference: {result.reference}</p>
+    </motion.div>
+  );
+};
+
+/* ---------- small building blocks ---------- */
+
+const inputClass =
+  "w-full p-3 md:p-4 rounded-xl border-2 border-black/10 focus:border-emerald-500 outline-none text-sm md:text-base bg-gray-50 focus:bg-white transition-colors";
+
+const Section = ({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) => (
+  <div className="bg-white p-5 md:p-8 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-4">
+    <div>
+      <h4 className="font-black text-gray-900 text-sm md:text-base uppercase tracking-tight">{title}</h4>
+      {hint && <p className="text-[11px] text-gray-400 italic">{hint}</p>}
+    </div>
+    {children}
+  </div>
+);
+
+const Field = ({ label, required, hint, children }: { label: string; required?: boolean; hint?: string; children: React.ReactNode }) => (
+  <label className="block space-y-1.5">
+    <span className="text-xs md:text-sm font-bold text-gray-700">
+      {label} {required && <span className="text-emerald-600">*</span>}
+    </span>
+    {children}
+    {hint && <span className="block text-[10px] text-gray-400 italic">{hint}</span>}
+  </label>
+);
+
+const PhotoPicker = ({
+  preview, onChange, label = "photo",
+}: {
+  preview: string | null;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  label?: string;
+}) => (
+  <label className="flex items-center gap-4 cursor-pointer">
+    <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl border-2 border-dashed border-emerald-300 bg-emerald-50 flex items-center justify-center overflow-hidden shrink-0">
+      {preview ? <img src={preview} className="w-full h-full object-cover" alt="Preview" /> : <ImagePlus className="text-emerald-400 w-6 h-6" />}
+    </div>
+    <span className="text-xs md:text-sm text-gray-500 font-medium">
+      {preview ? "Selected — tap to change" : `Tap to upload a ${label}`}
+    </span>
+    <input type="file" accept="image/*" onChange={onChange} className="hidden" />
+  </label>
+);

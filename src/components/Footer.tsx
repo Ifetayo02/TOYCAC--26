@@ -23,7 +23,7 @@ export const Footer = () => {
         </h3>
 
         {/* Contact Info */}
-        <div className="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-6 text-emerald-500 font-bold text-xs md:text-sm mb-8">
+       <div className="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-6 text-emerald-500 font-bold text-xs md:text-sm mb-8" id="contact">
           <a 
             href="mailto:timsan.oyocampandconference@gmail.com" 
             className="hover:text-emerald-400 transition-colors break-all px-4 md:px-0"
