@@ -28,12 +28,33 @@ const pillars = [
 export const About = () => {
   return (
     <section id="about" className="py-12 md:py-24 px-4 md:px-6 bg-white overflow-hidden">
-      <div className="max-w-5xl mx-auto text-center mb-12 md:mb-16">
+      {/* Image + Intro */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center mb-12 md:mb-16">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="relative order-2 md:order-1"
+        >
+          <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden border-2 md:border-4 border-black bg-[#F0FDF4] p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+            <img
+              src={timsanLogo}
+              alt="TIMSAN logo"
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div className="absolute -top-6 -left-6 bg-emerald-600 text-white px-5 py-3 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hidden sm:block">
+            <p className="text-2xl md:text-3xl font-black italic leading-none">10+</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest">Tertiary Institutions</p>
+          </div>
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="space-y-4"
+          className="order-1 md:order-2 space-y-4"
         >
           <span className="inline-block text-emerald-700 font-bold tracking-widest text-[10px] md:text-xs uppercase bg-emerald-100 px-4 py-1.5 rounded-full border border-emerald-200">
             Who We Are
@@ -41,37 +62,20 @@ export const About = () => {
           <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase italic leading-[1.05]">
             TIMSAN <span className="text-emerald-600">Oyo State</span>
           </h2>
-          <p className="text-gray-600 text-sm md:text-lg leading-relaxed max-w-3xl mx-auto">
+          <p className="text-gray-600 text-sm md:text-lg leading-relaxed">
             The Muslim Students' Society of Nigeria (TIMSAN), Oyo State Chapter, is the
             umbrella body uniting Muslim students across all tertiary institutions
             in the state from LAUTECH and UI to Poly Ibadan and beyond
             through Da'awah programs, academic support, and personal development that
             keep members rooted in faith while excelling on campus.
           </p>
-          <p className="text-gray-600 text-sm md:text-lg leading-relaxed max-w-3xl mx-auto">
+          <p className="text-gray-600 text-sm md:text-lg leading-relaxed">
             TOYCAC is our flagship annual gathering, a few days when every chapter
             comes together under one roof for worship, learning, and brotherhood
             that lasts well beyond camp.
           </p>
         </motion.div>
       </div>
-
-      {/* Emblem + stat strip */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10 mb-12 md:mb-16"
-      >
-        <div className="w-full max-w-xs sm:w-72 md:w-96 aspect-[4/3] rounded-2xl overflow-hidden border-2 md:border-4 border-black bg-[#F0FDF4] p-6 md:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] shrink-0">
-          <img src={timsanLogo} alt="TIMSAN logo" className="w-full h-full object-contain" />
-        </div>
-        <div className="bg-emerald-600 text-white px-10 py-8 md:px-14 md:py-10 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-center">
-          <p className="text-4xl md:text-6xl font-black italic leading-none">10+</p>
-          <p className="text-[11px] md:text-xs font-bold uppercase tracking-widest mt-2">Tertiary Institutions</p>
-        </div>
-      </motion.div>
 
       {/* Pillars */}
       <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
