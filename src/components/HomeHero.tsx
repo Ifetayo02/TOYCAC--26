@@ -25,7 +25,7 @@ export const HomeHero = () => {
             </h1>
 
             <p className="text-gray-600 text-base md:text-xl max-w-xl mx-auto md:mx-0 leading-relaxed">
-               Da'awah, brotherhood, personal development, and academic excellence for
+               Da'awah, brotherhood, personal development, and academic excellence for Tijaniyyah
   Muslim students across all tertiary institutions in Oyo State.
             </p>
           </motion.div>

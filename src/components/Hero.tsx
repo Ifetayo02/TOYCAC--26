@@ -18,13 +18,13 @@ export const Hero = () => {
             className="space-y-4 md:space-y-6"
           >
             <span className="inline-block text-emerald-700 font-bold tracking-widest text-[10px] md:text-xs uppercase bg-emerald-100 px-4 py-1.5 rounded-full border border-emerald-200">
-              TOYCAC '26
+              TOYCAC '27
             </span>
             
             {/* Minimized text-4xl on mobile, text-7xl on desktop */}
             <h1 className="text-3xl sm:text-4xl md:text-7xl font-black text-gray-900 leading-[1.1] tracking-tight">
               TIMSAN Oyo State  <br className="hidden md:block" />
-              <span className="text-emerald-600">Camp & Conference 2026</span>
+              <span className="text-emerald-600">Camp & Conference 2027</span>
             </h1>
             
             {/* Adjusted font size and centering for paragraph */}
