@@ -1,29 +1,16 @@
 import { motion } from "framer-motion";
 import { UserRound } from "lucide-react";
-import aasiyah from "../assets/Aasiyah.jpg";
-import ags from "../assets/AGS.jpg";
-import chiefWhip3 from "../assets/hikmah.jpg";
-import dhikroh from "../assets/Dhikroh.jpg";
-import genSec from "../assets/Gen. Sec.jpg";
-import maryam from "../assets/Maryam.jpg";
-import misturah from "../assets/Misturah.jpg";
-import muheez from "../assets/Muheez.jpg";
-import muqqodam from "../assets/Muqqodam.jpg";
-import muqqodamah from "../assets/Muqqodamah.jpg";
-import muhammad from "../assets/Muhammad.jpg";
-import naibatulMuqqodamah from "../assets/Naibatul Muqqodamah.jpg";
-import naibulMuqqodam from "../assets/Naibul Muqqodam.jpg";
-import pro from "../assets/pro.jpg";
-import rasheed from "../assets/Rasheed.jpg";
-import rokeeb from "../assets/Rokeeb.jpg";
-import saheed from "../assets/Saheed.jpg";
-import tiletChairman from "../assets/Tilet Chairman.jpg";
-import tilSec from "../assets/Til Sec.jpg";
-import cw2 from "../assets/saidat.jpg";
-/**
- * Executive photos are imported from the local assets folder and attached to
- * each matching executive record below.
- */
+
+// Hardcoded rather than an env var — a Cloudinary cloud name isn't secret
+// (it's visible in every image URL anyway), so there's no reason to fight
+// Vite's VITE_ prefix requirement for this one.
+const CLOUD_NAME = "dio5go08v"; // <-- put your real cloud name here
+const EXEC_FOLDER = "Executives"; // the folder you upload photos into
+
+// Builds an optimized, resized Cloudinary URL from just the public ID
+const execImg = (publicId: string) =>
+  `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_400,h_400,c_fill,g_auto,q_auto,f_auto/${EXEC_FOLDER}/${publicId}`;
+
 export type Executive = {
   name: string;
   position: string;
@@ -32,28 +19,26 @@ export type Executive = {
 };
 
 const executives: Executive[] = [
-  { name: "Seyyid Abdulkareem Abdulazeez", position: "Muqqodam", institution: "MULCOED", image: muqqodam },
-  { name: "Seyyid Abdulrahmon Sheriff ", position: "Naibul Muqqodam", institution: "Moor Plantation", image: naibulMuqqodam },
-  { name: "Seyyid Olawale Mubarak", position: "General Secretary", institution: "LAUTECH", image: genSec },
-  { name: "Seyyida Almahbub Aishah", position: "Muqqodamah", institution: "UI", image: muqqodamah },
-   { name: "Seyyida Jimoh Azeezat", position: "Asst. Gen. Secretary", institution: "OYSCHST", image: ags },
-   { name: "Seyyida Olafimihan Fateemah", position: "Naibatul Muqqodamah", institution: "EAUED", image: naibatulMuqqodamah },
-  { name: "Seyyid Adebiyi Habeeb", position: "PRO 1", institution: "TPI", image: pro },
-   { name: "Seyyid Adepoju Abdulakeem ", position: "TILETS Chairman", institution: "LAUTECH", image: tiletChairman },
-  { name: "Seyyida Abolore Misturah", position: "Member of TILETS Committee", institution: "EAUED", image: misturah },
-  { name: "Seyyida Adebisi Hikmah", position: "Chief Whip 3", institution: "OYSCATECH", image: chiefWhip3 },
-  { name: "Seyyida Ibrahim Aasiya", position: "Fin. Secretary 1", institution: "LAUTECH", image: aasiyah },
-  { name: "Seyyida Adepoju Dhikroh", position: "Welfare Officer 3", institution: "TOPS", image: dhikroh },
-  { name: "Seyyid Saheed Nasirudeen", position: "Chief Whip 1", institution: "MULCOED", image: saheed },
-  { name: "Seyyid Misbaudeen Rasheed", position: "Welfare Officer 1", institution: "SPED", image: rasheed },
-  { name: "Seyyid Tijani Abdullateef", position: "TILETS Secretary", institution: "UI", image: tilSec },
-  { name: "Seyyid Aderemi Muhammad", position: "Welfare Officer 2", institution: "MULCOED", image: muhammad },
-  { name: "Seyyida Jimoh Mariam", position: "Member of TILETS Committee", institution: "LAUTECH", image: maryam },
-  { name: "Seyyid Obisesan Rokeeb", position: "PRO 2", institution: "UI", image: rokeeb },
-  { name: "Seyyid Okunola Muiz", position: "Fin. Secretary 2", institution: "EAUED", image: muheez },
-    { name: "Seyyida Jimoh Saidat", position: "Chief Whip 2", institution: "TPI", image: cw2 },
-  
-  
+  { name: "Seyyid Abdulkareem Abdulazeez", position: "Muqqodam", institution: "MULCOED", image: execImg("muqqodam") },
+  { name: "Seyyid Abdulrahmon Sheriff ", position: "Naibul Muqqodam", institution: "Moor Plantation", image: execImg("naibul-muqqodam") },
+  { name: "Seyyid Olawale Mubarak", position: "General Secretary", institution: "LAUTECH", image: execImg("gen-sec") },
+  { name: "Seyyida Almahbub Aishah", position: "Muqqodamah", institution: "UI", image: execImg("muqqodamah") },
+  { name: "Seyyida Jimoh Azeezat", position: "Asst. Gen. Secretary", institution: "OYSCHST", image: execImg("ags") },
+  { name: "Seyyida Olafimihan Fateemah", position: "Naibatul Muqqodamah", institution: "EAUED", image: execImg("naibatul-muqqodamah") },
+  { name: "Seyyid Adebiyi Habeeb", position: "PRO 1", institution: "TPI", image: execImg("pro") },
+  { name: "Seyyid Adepoju Abdulakeem ", position: "TILETS Chairman", institution: "LAUTECH", image: execImg("tilet-chairman") },
+  { name: "Seyyida Abolore Misturah", position: "Member of TILETS Committee", institution: "EAUED", image: execImg("misturah") },
+  { name: "Seyyida Adebisi Hikmah", position: "Chief Whip 3", institution: "OYSCATECH", image: execImg("hikmah") },
+  { name: "Seyyida Ibrahim Aasiya", position: "Fin. Secretary 1", institution: "LAUTECH", image: execImg("aasiyah") },
+  { name: "Seyyida Adepoju Dhikroh", position: "Welfare Officer 3", institution: "TOPS", image: execImg("dhikroh") },
+  { name: "Seyyid Saheed Nasirudeen", position: "Chief Whip 1", institution: "MULCOED", image: execImg("saheed") },
+  { name: "Seyyid Misbaudeen Rasheed", position: "Welfare Officer 1", institution: "SPED", image: execImg("rasheed") },
+  { name: "Seyyid Tijani Abdullateef", position: "TILETS Secretary", institution: "UI", image: execImg("til-sec") },
+  { name: "Seyyid Aderemi Muhammad", position: "Welfare Officer 2", institution: "MULCOED", image: execImg("muhammad") },
+  { name: "Seyyida Jimoh Mariam", position: "Member of TILETS Committee", institution: "LAUTECH", image: execImg("maryam") },
+  { name: "Seyyid Obisesan Rokeeb", position: "PRO 2", institution: "UI", image: execImg("rokeeb") },
+  { name: "Seyyid Okunola Muiz", position: "Fin. Secretary 2", institution: "EAUED", image: execImg("muheez") },
+  { name: "Seyyida Jimoh Saidat", position: "Chief Whip 2", institution: "TPI", image: execImg("saidat") },
 ];
 
 export const Executives = () => {

@@ -1,9 +1,9 @@
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-// Must be an address on a domain you've verified in Resend's dashboard.
-// Their default onboarding@resend.dev can only send to your own account
-// email until you verify a real domain — swap this once TIMSAN's domain
-// (or a Gmail alias via Resend's SMTP) is verified.
-const FROM_ADDRESS = process.env.RESEND_FROM_ADDRESS || "TCAC '26 <onboarding@resend.dev>";
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+// Must be an address on a domain you've verified in Brevo's dashboard
+// (Senders, Domains & Dedicated IPs -> Domains). Swap this once TIMSAN's
+// domain is verified there.
+const FROM_EMAIL = process.env.BREVO_FROM_EMAIL || "no-reply@yourdomain.com";
+const FROM_NAME = process.env.BREVO_FROM_NAME || "TCAC '26";
 
 export async function sendConfirmationEmail(params: {
   to: string;
@@ -11,8 +11,8 @@ export async function sendConfirmationEmail(params: {
   houseNumber: string;
   category: string;
 }) {
-  if (!RESEND_API_KEY) {
-    console.error("RESEND_API_KEY not set — skipping email send");
+  if (!BREVO_API_KEY) {
+    console.error("BREVO_API_KEY not set — skipping email send");
     return;
   }
 
@@ -33,21 +33,22 @@ export async function sendConfirmationEmail(params: {
     </div>
   `;
 
-  const res = await fetch("https://api.resend.com/emails", {
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "api-key": BREVO_API_KEY,
       "Content-Type": "application/json",
+      Accept: "application/json",
     },
     body: JSON.stringify({
-      from: FROM_ADDRESS,
-      to,
+      sender: { name: FROM_NAME, email: FROM_EMAIL },
+      to: [{ email: to, name: fullName }],
       subject: "TCAC '26 — Registration Confirmed ✅",
-      html,
+      htmlContent: html,
     }),
   });
 
   if (!res.ok) {
-    console.error("Resend send failed", await res.text());
+    console.error("Brevo send failed", await res.text());
   }
 }

@@ -16,8 +16,8 @@ import { Images, X, Loader2 } from "lucide-react";
  *
  * Set your cloud name in `.env` as VITE_CLOUDINARY_CLOUD_NAME.
  */
-const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "your-cloud-name";
-const CLOUDINARY_TAG = "tcac-recap";
+const CLOUD_NAME = import.meta.env.CLOUDINARY_CLOUD_NAME || "your-cloud-name";
+const CLOUDINARY_TAG = "toycac-recap";
 
 type CloudinaryResource = {
   public_id: string;
