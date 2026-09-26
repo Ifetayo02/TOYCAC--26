@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Images, X, Loader2 } from "lucide-react";
+import { Images, X, Loader2, ChevronDown, ChevronUp } from "lucide-react";
 
 /**
  * HOW TO ADD NEW PHOTOS (no code changes needed):
@@ -18,6 +18,7 @@ import { Images, X, Loader2 } from "lucide-react";
  */
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "your-cloud-name";
 const CLOUDINARY_TAG = "toycac-recap";
+const PREVIEW_COUNT = 12; // how many show before "View Full Gallery"
 
 type CloudinaryResource = {
   public_id: string;
@@ -25,15 +26,16 @@ type CloudinaryResource = {
 };
 
 const thumbUrl = (publicId: string) =>
-  `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_500,h_500,c_fill,q_auto,f_auto/${publicId}`;
+  `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_500,h_500,c_fill,q_auto,f_auto/${encodeURIComponent(publicId)}`;
 
 const fullUrl = (publicId: string) =>
-  `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_1600,q_auto,f_auto/${publicId}`;
+  `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_1600,q_auto,f_auto/${encodeURIComponent(publicId)}`;
 
 export const Gallery = () => {
   const [images, setImages] = useState<CloudinaryResource[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [active, setActive] = useState<CloudinaryResource | null>(null);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,6 +58,9 @@ export const Gallery = () => {
       cancelled = true;
     };
   }, []);
+
+  const visibleImages = expanded ? images : images.slice(0, PREVIEW_COUNT);
+  const hasMore = images.length > PREVIEW_COUNT && !expanded;
 
   return (
     <section id="gallery" className="py-12 md:py-24 px-4 md:px-6 bg-white overflow-hidden">
@@ -84,15 +89,7 @@ export const Gallery = () => {
           </div>
         )}
 
-        {status === "error" && (
-          <div className="max-w-lg mx-auto text-center py-16 px-6 border-2 border-dashed border-emerald-200 rounded-3xl">
-            <p className="text-gray-500 text-sm">
-              Photos are on the way &mdash; check back soon for highlights from last year's camp.
-            </p>
-          </div>
-        )}
-
-        {status === "ready" && images.length === 0 && (
+        {(status === "error" || (status === "ready" && images.length === 0)) && (
           <div className="max-w-lg mx-auto text-center py-16 px-6 border-2 border-dashed border-emerald-200 rounded-3xl">
             <p className="text-gray-500 text-sm">
               Photos are on the way &mdash; check back soon for highlights from last year's camp.
@@ -101,26 +98,40 @@ export const Gallery = () => {
         )}
 
         {status === "ready" && images.length > 0 && (
-          <div className="columns-2 sm:columns-3 md:columns-4 gap-3 md:gap-4 space-y-3 md:space-y-4">
-            {images.map((img, i) => (
-              <motion.button
-                key={img.public_id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: (i % 12) * 0.04 }}
-                onClick={() => setActive(img)}
-                className="block w-full break-inside-avoid rounded-2xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-              >
-                <img
-                  src={thumbUrl(img.public_id)}
-                  alt="TCAC camp memory"
-                  loading="lazy"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </motion.button>
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
+              {visibleImages.map((img, i) => (
+                <motion.button
+                  key={img.public_id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: (i % 12) * 0.04 }}
+                  onClick={() => setActive(img)}
+                  className="block aspect-square rounded-2xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                >
+                  <img
+                    src={thumbUrl(img.public_id)}
+                    alt="TCAC camp memory"
+                    loading="lazy"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </motion.button>
+              ))}
+            </div>
+            {images.length > PREVIEW_COUNT && (
+              <div className="flex justify-center mt-8 md:mt-10">
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setExpanded((e) => !e)}
+                  className="inline-flex items-center gap-2 bg-black text-white font-black px-6 py-3 md:px-8 md:py-4 rounded-xl border-2 border-emerald-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] uppercase tracking-widest text-xs md:text-sm hover:bg-gray-900 transition-colors"
+                >
+                  {expanded ? "See Less" : "View Full Gallery"}
+                  {expanded ? <ChevronUp size={18} className="text-emerald-400" /> : <ChevronDown size={18} className="text-emerald-400" />}
+                </motion.button>
+              </div>
+            )}
+          </>
         )}
       </div>
 

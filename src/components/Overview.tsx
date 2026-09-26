@@ -1,15 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Users, Zap, Monitor, Camera, ArrowRight } from "lucide-react";
+import { Users, Zap, Monitor, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-// Image Imports
-import imgBrotherhood from "../assets/brothers.jpg";
-import imgCompetition from "../assets/competition.jpg";
-import imgZikr from "../assets/Zikr.jpg"; 
-import imgPanel from "../assets/Panel Session.jpg";
-import imgMedical from "../assets/Medical Checkup.jpg";
-import imgMosque from "../assets/ansarudeen.jpg";
 
 const features = [
   {
@@ -30,15 +22,6 @@ const features = [
     icon: <Users className="w-6 h-6 md:w-8 md:h-8 text-emerald-600" />,
     color: "bg-emerald-50"
   }
-];
-
-const gallery = [
-  { url: imgBrotherhood, label: "Brotherhood" },
-  { url: imgZikr, label: "Zikr Sessions" },
-  { url: imgPanel, label: "Panel Sessions" },
-  { url: imgMosque, label: "Ansarudeen Central Mosque" },
-  { url: imgCompetition, label: "Quranic Competition" },
-  { url: imgMedical, label: "Medical Checkup" }
 ];
 
 export const Overview = () => {
@@ -81,45 +64,6 @@ export const Overview = () => {
               <p className="text-sm md:text-base text-gray-700 leading-relaxed font-medium">{f.desc}</p>
             </motion.div>
           ))}
-        </div>
-
-        {/* --- CINEMATIC AUTO-SCROLLING GALLERY --- */}
-        <div className="mb-20 md:mb-32 relative overflow-hidden">
-          <div className="flex items-center gap-2 mb-8 px-4 md:px-0">
-            <Camera className="text-emerald-600 w-5 h-5" />
-            <span className="font-black uppercase tracking-widest text-[10px] text-emerald-600">The Atmosphere</span>
-          </div>
-          
-          <div className="flex overflow-hidden py-4">
-            <motion.div 
-              className="flex flex-nowrap"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{
-                duration: 25, // Adjust speed: lower is faster
-                ease: "linear",
-                repeat: Infinity,
-              }}
-            >
-              {/* Double array for seamless loop */}
-              {[...gallery, ...gallery].map((img, idx) => (
-                <div 
-                  key={idx}
-                  className="flex-shrink-0 mx-3 w-[280px] md:w-[380px] aspect-[4/5] bg-gray-100 rounded-[2.5rem] overflow-hidden border-2 border-black shadow-[8px_8px_0px_0px_rgba(5,150,105,1)] relative"
-                >
-                  <img 
-                    src={img.url} 
-                    alt={img.label} 
-                    className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-700"
-                  />
-                  <div className="absolute bottom-6 left-6">
-                    <span className="bg-white px-4 py-2 rounded-full text-[10px] font-black border-2 border-black uppercase shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
-                      {img.label}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
         </div>
 
         {/* --- CALL TO ACTION CARD --- */}
