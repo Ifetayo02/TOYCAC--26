@@ -22,28 +22,35 @@ export const AdminPage = () => {
   const [confirming, setConfirming] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const load = async (key: string) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/admin-list?status=pending", {
-        headers: { "x-admin-secret": key },
-      });
-      if (res.status === 401) {
-        setAuthed(false);
-        setError("Wrong admin key.");
-        return;
-      }
-      const data = await res.json();
-      setRegs(data.registrations);
-      setAuthed(true);
-      sessionStorage.setItem("tcac_admin_secret", key);
-    } catch {
-      setError("Couldn't load registrations.");
-    } finally {
-      setLoading(false);
+const load = async (key: string) => {
+  setLoading(true);
+  setError(null);
+  try {
+    const res = await fetch("/api/admin-list?status=pending", {
+      headers: { "x-admin-secret": key },
+    });
+    const data = await res.json();
+
+    if (res.status === 401) {
+      setAuthed(false);
+      setError("Wrong admin key.");
+      return;
     }
-  };
+    if (!res.ok) {
+      setAuthed(false);
+      setError(data.error ? `${data.error}: ${data.detail ?? ""}` : "Something went wrong.");
+      return;
+    }
+
+    setRegs(data.registrations ?? []);
+    setAuthed(true);
+    sessionStorage.setItem("tcac_admin_secret", key);
+  } catch {
+    setError("Couldn't load registrations.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     if (secret) load(secret);
