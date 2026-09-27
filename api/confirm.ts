@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Timestamp } from "firebase-admin/firestore";
-import { db, registrationsRef } from "./_firebaseAdmin";
-import { HOUSES, formatHouseNumber } from "./_houses";
-import { sendConfirmationEmail } from "./_email";
+import { db, registrationsRef } from "./_firebaseAdmin.js";
+import { HOUSES, formatHouseNumber } from "./_houses.js";
+import { sendConfirmationEmail } from "./_email.js";
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 const countersRef = db.collection("meta").doc("houseCounters");

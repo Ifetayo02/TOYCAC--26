@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { registrationsRef } from "./_firebaseAdmin";
+import { registrationsRef } from "./_firebaseAdmin.js";
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 

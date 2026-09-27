@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { registrationsRef } from "./_firebaseAdmin";
+import { registrationsRef } from "./_firebaseAdmin.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const reference = req.query.reference;

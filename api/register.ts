@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Timestamp } from "firebase-admin/firestore";
-import { registrationsRef } from "./_firebaseAdmin";
+import { registrationsRef } from "./_firebaseAdmin.js";
 
 const BASE_AMOUNTS: Record<string, number> = {
   timsanite: 5000,
