@@ -67,18 +67,20 @@ export const PaymentPage = () => {
     setReceiptPreview(URL.createObjectURL(file));
   };
 
-  const uploadImage = async (file: File): Promise<string> => {
-    const body = new FormData();
-    body.append("file", file);
-    body.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-      method: "POST",
-      body,
-    });
-    if (!res.ok) throw new Error("Upload failed");
-    const data = await res.json();
-    return data.secure_url as string;
-  };
+const uploadImage = async (file: File): Promise<string> => {
+  const body = new FormData();
+  body.append("file", file);
+  body.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+    method: "POST",
+    body,
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data?.error?.message ? `Upload failed: ${data.error.message}` : "Upload failed");
+  }
+  return data.secure_url as string;
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
