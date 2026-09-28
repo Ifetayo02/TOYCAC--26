@@ -1,24 +1,29 @@
-import { cert, getApps, initializeApp } from "firebase-admin/app";
+import { initializeApp, getApps, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 
-// SERVER-ONLY. Never import this from src/ (client bundle) — the service
-// account key has full read/write access and must never reach the browser.
-const projectId = process.env.FIREBASE_PROJECT_ID;
-const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-// Vercel env vars can't hold real newlines, so the key is stored with
-// literal "\n" sequences — this swaps them back to real line breaks.
-const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+function getPrivateKey() {
+  let key = process.env.FIREBASE_PRIVATE_KEY ?? "";
 
-if (!projectId || !clientEmail || !privateKey) {
-  throw new Error(
-    "Missing FIREBASE_PROJECT_ID / FIREBASE_CLIENT_EMAIL / FIREBASE_PRIVATE_KEY env vars (set these in Vercel project settings, not .env.example)."
-  );
+  // Strip accidental surrounding quotes (a very common paste mistake)
+  if (
+    (key.startsWith('"') && key.endsWith('"')) ||
+    (key.startsWith("'") && key.endsWith("'"))
+  ) {
+    key = key.slice(1, -1);
+  }
+
+  // Convert literal \n sequences into real newlines
+  return key.replace(/\\n/g, "\n");
 }
 
-// Serverless functions can be reused between invocations — guard against
-// re-initializing the app on every warm start.
 if (!getApps().length) {
-  initializeApp({ credential: cert({ projectId, clientEmail, privateKey }) });
+  initializeApp({
+    credential: cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: getPrivateKey(),
+    }),
+  });
 }
 
 export const db = getFirestore();
