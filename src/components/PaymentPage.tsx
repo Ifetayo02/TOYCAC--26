@@ -11,7 +11,7 @@ const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "your-cloud-nam
 // Create this as an *unsigned* upload preset in Cloudinary Console ->
 // Settings -> Upload -> Upload presets -> Add. Unsigned is fine here since
 // it only allows uploads, not deletes/reads of your whole library.
-const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || "tcac_profile_photos";
+const CLOUDINARY_UPLOAD_PRESET = "TOYCAC Receipts";
 
 const FEES = [
   { value: "timsanite", label: "Timsanite", price: 5000 },
