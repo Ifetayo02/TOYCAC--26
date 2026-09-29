@@ -20,8 +20,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: "Missing reference" });
   }
 
+  let result;
   try {
-    const result = await db.runTransaction(async (tx) => {
+    result = await db.runTransaction(async (tx) => {
       const regRef = registrationsRef.doc(reference);
       const [regSnap, countersSnap] = await Promise.all([tx.get(regRef), tx.get(countersRef)]);
 
@@ -31,7 +32,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       const counts = countersSnap.exists ? countersSnap.data()! : {};
 
-      // Balance: send this registrant to whichever house currently has fewest people
       let chosenHouse = HOUSES[0];
       let lowest = counts[HOUSES[0]] ?? 0;
       for (const h of HOUSES) {
@@ -53,18 +53,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       return { houseNumber, fullName: reg.full_name, email: reg.email, category: reg.category };
     });
-
-    // Email is sent after the transaction commits — a failed send shouldn't
-    // undo a successful confirmation, so this is fire-and-report, not
-    // rolled into the atomic write above.
-    await sendConfirmationEmail({
-      to: result.email,
-      fullName: result.fullName,
-      houseNumber: result.houseNumber,
-      category: result.category,
-    });
-
-    return res.status(200).json({ houseNumber: result.houseNumber });
   } catch (err) {
     if (err instanceof Error && err.message === "NOT_FOUND") {
       return res.status(404).json({ error: "Registration not found" });
@@ -74,4 +62,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
     return res.status(500).json({ error: "Could not confirm registration", detail: String(err) });
   }
+
+  // The database write already succeeded — a failed email should never
+  // look like a failed confirmation, so this is deliberately outside the
+  // try/catch above.
+  let emailSent = true;
+  try {
+    await sendConfirmationEmail({
+      to: result.email,
+      fullName: result.fullName,
+      houseNumber: result.houseNumber,
+      category: result.category,
+    });
+  } catch (err) {
+    emailSent = false;
+    console.error("Email send failed after confirmation:", err);
+  }
+
+  return res.status(200).json({ houseNumber: result.houseNumber, emailSent });
 }

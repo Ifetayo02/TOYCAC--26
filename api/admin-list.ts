@@ -28,6 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         category: d.category,
         unique_amount: d.unique_amount,
         receipt_url: d.receipt_url,
+        house_number: d.house_number ?? null,
         created_at: d.created_at?.toDate?.().toISOString() ?? null,
       };
     });
