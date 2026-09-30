@@ -20,14 +20,14 @@ export const PaymentNavbar = () => {
           <div className="flex flex-col">
            
             <span className="font-black text-xs md:text-sm tracking-tighter text-emerald-600 uppercase leading-none">
-              TOYCAC <span className="font-black text-xs md:text-sm tracking-tighter text-gray-900 uppercase leading-none">'26</span> 
+              TOYCAC <span className="font-black text-xs md:text-sm tracking-tighter text-gray-900 uppercase leading-none">'27</span> 
             </span>
           </div>
         </Link>
         
         {/* Support Link */}
         <a 
-          href="https://wa.me/2348137039272" 
+          href="https://wa.me/2348054958284" 
           target="_blank" 
           rel="noreferrer"
           className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-2 md:px-5 md:py-2.5 rounded-xl text-[9px] md:text-[11px] font-black uppercase border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:shadow-none active:translate-y-[1px] transition-all"

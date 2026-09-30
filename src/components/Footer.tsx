@@ -32,10 +32,10 @@ export const Footer = () => {
           </a>
           <span className="hidden md:block text-gray-700">|</span>
           <a href="tel:+2348130089797" className="hover:text-emerald-400 transition-colors">
-            +234 8130089797
+            +234 8054958284
           </a>
             <a href="tel:+2349057647997" className="hover:text-emerald-400 transition-colors">
-            +234 9057647997
+            +234 8023889399
           </a>
         </div>
 

@@ -2,7 +2,7 @@ const BREVO_API_KEY = process.env.BREVO_API_KEY;
 const FROM_EMAIL = process.env.BREVO_FROM_EMAIL || "no-reply@yourdomain.com";
 const FROM_NAME = process.env.BREVO_FROM_NAME || "TOYCAC '27";
 // Set this once you have the real group link.
-const WHATSAPP_GROUP_LINK = process.env.WHATSAPP_GROUP_LINK || "https://chat.whatsapp.com/your-group-link-here";
+const WHATSAPP_GROUP_LINK = process.env.WHATSAPP_GROUP_LINK || "https://chat.whatsapp.com/IvLxotMwpMq5S6SaFVskeO";
 
 export async function sendConfirmationEmail(params: {
   to: string;

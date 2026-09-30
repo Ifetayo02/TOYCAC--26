@@ -22,7 +22,7 @@ const BANK = { name: "FCMB", number: "1027278453", accountName: "TIMSAN OYO STAT
 
 type FormState = {
   fullName: string;
-  gender: "brother" | "sister" | "";
+  gender: "Male" | "Female" | "";
   phone: string;
   email: string;
   institution: string;
