@@ -8,7 +8,7 @@ import { PaymentNavbar } from "../components/PaymentNavbar";
 import { Footer } from "../components/Footer";
 
 const CLOUD_NAME = "dio5go08v";
-const CLOUDINARY_UPLOAD_PRESET = "your_exact_preset_name_here"; // <-- your real preset name
+const CLOUDINARY_UPLOAD_PRESET = "TOYCAC Receipts"; // <-- your real preset name
 
 const FEES = [
   { value: "timsanite", label: "Timsanite" },
