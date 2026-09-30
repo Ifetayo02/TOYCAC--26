@@ -5,11 +5,11 @@ import { ChevronDown, HelpCircle, MessageCircle } from "lucide-react";
 const faqData = [
   {
     question: "What is TIMSAN?",
-    answer: "TIMSAN (Tijaniyyah Muslim Students’ Association of Nigeria) exists to uplift the spiritual life, academic excellence and social service ethic of Tijaniyyah students in Nigerian tertiary institutions. The camp is its programme for putting those ideals into practice."
+    answer: "TIMSAN (Tijaniyyah Muslim Students’ Association of Nigeria) exists to uplift the spiritual life, academic excellence and social service ethic of Tijaniyyah students in Nigerian tertiary institutions. The camp is its annual flagship programme for putting those ideals into practice."
   },
     {
     question:"When & where it happens?",
-    answer: "Rooted in a legacy of consistency, the Oyo State Zone has successfully organized this conference annually, alternating host institutions to ensure a balanced and inclusive experience for all Muslim students in the state.This year's camp is proudly hosted by TIMSAN LAUTECH, Ogbomosho, and will be held at the Ansarudeen Central Mosque, Oke Ado Akintola Area, Ogbomosho from Thursday, 6th to Sunday, 9th August 2026."
+    answer: "Rooted in a legacy of consistency, the Oyo State Zone has successfully organized this conference annually, alternating host institutions to ensure a balanced and inclusive experience for all Muslim students in the state. Details regarding this year's host institution, venue, and official dates will be announced soon."
   },
     {
     question: "How do I register for the camp?",
@@ -45,7 +45,7 @@ export const FaqAccordion = () => {
             </span>
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3">Frequently Asked</h2>
-          <p className="text-gray-600 text-sm md:text-base px-4">Everything you need to know before TOYCAC '26.</p>
+          <p className="text-gray-600 text-sm md:text-base px-4">Everything you need to know about TOYCAC '27.</p>
         </div>
 
         {/* Accordion List */}

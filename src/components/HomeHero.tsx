@@ -42,7 +42,7 @@ export const HomeHero = () => {
               className="bg-emerald-600 text-white px-4 md:px-10 py-3 md:py-4 rounded-xl text-sm md:text-lg font-black border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] md:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-all hover:bg-emerald-700"
               onClick={() => navigate("/camp")}
             >
-              This Year's Camp →
+              TOYCAC '27 →
             </motion.button>
 
             <motion.button

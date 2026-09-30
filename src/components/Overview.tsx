@@ -42,7 +42,7 @@ export const Overview = () => {
             Expect <span className="text-emerald-600">Excellence</span>
           </motion.h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-lg leading-relaxed">
-            Bridging the gap between spiritual devotion and professional leadership at TOYCAC '26.
+            Bridging the gap between spiritual devotion and professional leadership at TOYCAC '27.
           </p>
         </div>
 
@@ -82,7 +82,7 @@ export const Overview = () => {
               <span className="text-black/30">PURPOSE.</span>
             </h3>
             <p className="text-emerald-50 text-sm md:text-xl font-medium max-w-md leading-snug">
-              Don't just witness the legacy, be part of the transformation at Ogbomosho.
+              Don't just witness the legacy, be part of the transformation at TOYCAC '27.
             </p>
           </div>
 

@@ -36,7 +36,7 @@ export const HomeNavbar = () => {
             onClick={() => navigate("/camp")}
             className="bg-emerald-600 text-white px-2.5 sm:px-4 py-2 rounded-lg text-[10px] sm:text-xs md:text-sm font-bold shadow-md whitespace-nowrap"
           >
-            This Year's Camp
+             TOYCAC '27
           </motion.button>
 
           <button

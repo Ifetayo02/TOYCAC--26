@@ -47,7 +47,7 @@ export const Logistics = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-sm md:text-lg text-gray-900">Date & Time</h4>
-                  <p className="text-gray-600 font-medium text-xs md:text-lg leading-tight">Thursday, 6th – Sunday, 9th August 2026</p>
+                  <p className="text-gray-600 font-medium text-xs md:text-lg leading-tight">TBA</p>
                 </div>
               </div>
 
@@ -58,7 +58,7 @@ export const Logistics = () => {
                 <div>
                   <h4 className="font-bold text-sm md:text-lg text-gray-900">Venue</h4>
                   <p className="text-gray-600 font-medium text-xs md:text-base leading-tight">
-                    Ansarudeen Central Mosque, Oke Ado Akintola, Ogbomosho.
+                 TBA
                   </p>
                   <p className="text-[10px] md:text-sm text-emerald-700 font-bold uppercase mt-1">Oyo State, Nigeria.</p>
                 </div>
@@ -110,7 +110,7 @@ export const Logistics = () => {
                   <span className="uppercase text-[8px] md:text-[9px] font-black tracking-widest text-emerald-100">Status: Active</span>
                 </div>
                 <div className="bg-black/20 px-2 py-0.5 md:px-3 md:py-1 rounded-full border border-white/10 text-[8px] md:text-[10px] font-bold uppercase">
-                  TOYCAC '26
+                  TOYCAC '27
                 </div>
               </div>
               
