@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CheckCircle2, Loader2, LogOut, RefreshCw, Undo2 } from "lucide-react";
+import { CheckCircle2, Loader2, LogOut, RefreshCw, Undo2, X, AlertTriangle } from "lucide-react";
 
 type Registration = {
   reference: string;
@@ -7,14 +7,19 @@ type Registration = {
   gender: string;
   institution: string;
   level: string;
+  course_of_study: string;
   category: string;
-  unique_amount: number;
   receipt_url: string;
   house_number?: string | null;
   created_at: string | null;
 };
 
 type Tab = "pending" | "confirmed";
+
+type ModalState =
+  | { kind: "confirmUnconfirm"; reference: string }
+  | { kind: "message"; title: string; text: string }
+  | null;
 
 export const AdminPage = () => {
   const [secret, setSecret] = useState(() => sessionStorage.getItem("tcac_admin_secret") || "");
@@ -24,6 +29,7 @@ export const AdminPage = () => {
   const [loading, setLoading] = useState(false);
   const [busyRef, setBusyRef] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [modal, setModal] = useState<ModalState>(null);
 
   const load = async (key: string, status: Tab) => {
     setLoading(true);
@@ -73,19 +79,33 @@ export const AdminPage = () => {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to confirm");
-      if (data.emailSent === false) {
-        alert(`Confirmed \u2014 house ${data.houseNumber} \u2014 but the email failed to send. Check Vercel logs.`);
-      }
+
       setRegs((prev) => prev.filter((r) => r.reference !== reference));
+
+      if (data.emailSent === false) {
+        setModal({
+          kind: "message",
+          title: "Confirmed, but email failed",
+          text: `House ${data.houseNumber} was assigned, but the confirmation email didn't send. Check Vercel's Runtime Logs for the reason.`,
+        });
+      }
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Something went wrong");
+      setModal({
+        kind: "message",
+        title: "Couldn't confirm",
+        text: err instanceof Error ? err.message : "Something went wrong.",
+      });
     } finally {
       setBusyRef(null);
     }
   };
 
-  const handleUnconfirm = async (reference: string) => {
-    if (!window.confirm("Move this registration back to pending? Their house number will be released.")) return;
+  const requestUnconfirm = (reference: string) => {
+    setModal({ kind: "confirmUnconfirm", reference });
+  };
+
+  const performUnconfirm = async (reference: string) => {
+    setModal(null);
     setBusyRef(reference);
     try {
       const res = await fetch("/api/unconfirm", {
@@ -97,7 +117,11 @@ export const AdminPage = () => {
       if (!res.ok) throw new Error(data.error || "Failed to unconfirm");
       setRegs((prev) => prev.filter((r) => r.reference !== reference));
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Something went wrong");
+      setModal({
+        kind: "message",
+        title: "Couldn't unconfirm",
+        text: err instanceof Error ? err.message : "Something went wrong.",
+      });
     } finally {
       setBusyRef(null);
     }
@@ -182,8 +206,8 @@ export const AdminPage = () => {
               <div className="p-4 space-y-1">
                 <p className="font-black">{r.full_name}</p>
                 <p className="text-xs text-gray-500">{r.institution} · {r.level} · {r.gender}</p>
+                <p className="text-xs text-gray-400">{r.course_of_study}</p>
                 <p className="text-xs uppercase font-bold text-emerald-700">{r.category}</p>
-                <p className="text-sm font-mono">Expected: ₦{r.unique_amount?.toLocaleString()}</p>
                 {tab === "confirmed" && r.house_number && (
                   <p className="text-sm font-black text-emerald-800">House: {r.house_number}</p>
                 )}
@@ -198,7 +222,7 @@ export const AdminPage = () => {
                   </button>
                 ) : (
                   <button
-                    onClick={() => handleUnconfirm(r.reference)}
+                    onClick={() => requestUnconfirm(r.reference)}
                     disabled={busyRef === r.reference}
                     className="mt-2 w-full inline-flex items-center justify-center gap-2 bg-amber-500 text-white font-black py-2.5 rounded-xl text-xs uppercase tracking-widest disabled:opacity-60"
                   >
@@ -210,6 +234,60 @@ export const AdminPage = () => {
           ))}
         </div>
       </div>
+
+      {modal && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4"
+          onClick={() => modal.kind === "message" && setModal(null)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-2xl border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] w-full max-w-sm p-6 space-y-4"
+          >
+            {modal.kind === "confirmUnconfirm" && (
+              <>
+                <div className="flex items-center gap-2 text-amber-600">
+                  <AlertTriangle size={20} />
+                  <h3 className="font-black uppercase text-sm">Move back to pending?</h3>
+                </div>
+                <p className="text-sm text-gray-600">
+                  Their house number will be released and they'll need to be reviewed again.
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setModal(null)}
+                    className="flex-1 py-2.5 rounded-xl border-2 border-black font-black text-xs uppercase"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => performUnconfirm(modal.reference)}
+                    className="flex-1 py-2.5 rounded-xl bg-amber-500 text-white font-black text-xs uppercase"
+                  >
+                    Yes, Unconfirm
+                  </button>
+                </div>
+              </>
+            )}
+
+            {modal.kind === "message" && (
+              <>
+                <div className="flex justify-between items-start">
+                  <h3 className="font-black uppercase text-sm">{modal.title}</h3>
+                  <button onClick={() => setModal(null)}><X size={18} /></button>
+                </div>
+                <p className="text-sm text-gray-600">{modal.text}</p>
+                <button
+                  onClick={() => setModal(null)}
+                  className="w-full py-2.5 rounded-xl bg-black text-white font-black text-xs uppercase"
+                >
+                  Got it
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

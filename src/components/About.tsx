@@ -10,7 +10,7 @@ const pillars = [
   },
   {
     title: "Brotherhood & Sisterhood",
-    desc: "Uniting Muslim students across every tertiary institution in Oyo State under one Ummah.",
+    desc: "Uniting Tijaniyyah Muslim students across every tertiary institution in Oyo State under one Ummah.",
     icon: <HeartHandshake className="w-5 h-5 md:w-6 md:h-6 text-emerald-700" />,
   },
   {
@@ -63,8 +63,8 @@ export const About = () => {
             TIMSAN <span className="text-emerald-600">Oyo State</span>
           </h2>
           <p className="text-gray-600 text-sm md:text-lg leading-relaxed">
-            The Muslim Students' Society of Nigeria (TIMSAN), Oyo State Chapter, is the
-            umbrella body uniting Muslim students across all tertiary institutions
+            The Tijaniyyah Muslim Students' Society of Nigeria (TIMSAN), Oyo State Chapter, is the
+            umbrella body uniting Tijaniyyah Muslim students across all tertiary institutions
             in the state from LAUTECH and UI to Poly Ibadan and beyond
             through Da'awah programs, academic support, and personal development that
             keep members rooted in faith while excelling on campus.

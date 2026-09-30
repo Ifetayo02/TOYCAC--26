@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Timestamp } from "firebase-admin/firestore";
 import { db, registrationsRef } from "./_firebaseAdmin.js";
-import { HOUSES, formatHouseNumber } from "./_houses.js";
+import { HOUSES, formatHouseNumber, smallestAvailable } from "./_houses.js";
 import { sendConfirmationEmail } from "./_email.js";
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
@@ -30,21 +30,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const reg = regSnap.data()!;
       if (reg.payment_status === "confirmed") throw new Error("ALREADY_CONFIRMED");
 
-      const counts = countersSnap.exists ? countersSnap.data()! : {};
+      const lists: Record<string, number[]> = countersSnap.exists ? countersSnap.data()! : {};
+      let chosenHouse: string;
 
-      let chosenHouse = HOUSES[0];
-      let lowest = counts[HOUSES[0]] ?? 0;
-      for (const h of HOUSES) {
-        const c = counts[h] ?? 0;
-        if (c < lowest) {
-          lowest = c;
-          chosenHouse = h;
+      if (reg.category === "iotb") {
+        chosenHouse = "IOTB";
+      } else {
+        // Balance by how many people are CURRENTLY active in each house
+        // (list length), not by the highest number ever issued.
+        chosenHouse = HOUSES[0];
+        let lowestCount = (lists[HOUSES[0]] ?? []).length;
+        for (const h of HOUSES) {
+          const c = (lists[h] ?? []).length;
+          if (c < lowestCount) {
+            lowestCount = c;
+            chosenHouse = h;
+          }
         }
       }
-      const newCount = lowest + 1;
-      const houseNumber = formatHouseNumber(chosenHouse, newCount);
 
-      tx.set(countersRef, { [chosenHouse]: newCount }, { merge: true });
+      const activeInChosen = lists[chosenHouse] ?? [];
+      const num = smallestAvailable(activeInChosen);
+      const houseNumber = formatHouseNumber(chosenHouse, num);
+
+      tx.set(countersRef, { [chosenHouse]: [...activeInChosen, num] }, { merge: true });
       tx.update(regRef, {
         payment_status: "confirmed",
         house_number: houseNumber,
@@ -63,9 +72,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "Could not confirm registration", detail: String(err) });
   }
 
-  // The database write already succeeded — a failed email should never
-  // look like a failed confirmation, so this is deliberately outside the
-  // try/catch above.
   let emailSent = true;
   try {
     await sendConfirmationEmail({

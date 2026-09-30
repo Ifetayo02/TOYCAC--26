@@ -2,13 +2,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Timestamp } from "firebase-admin/firestore";
 import { registrationsRef } from "./_firebaseAdmin.js";
 
-const BASE_AMOUNTS: Record<string, number> = {
-  timsanite: 5000,
-  non_timsanite: 6000,
-  child: 3000,
-  iotb: 7000,
-};
-// NOTE: placeholder prices — update to match the real fee structure.
+const VALID_CATEGORIES = ["timsanite", "non_timsanite", "child", "iotb"];
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -16,18 +10,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const {
-    fullName, gender, phone, email, institution, level,
-    nextOfKinName, nextOfKinPhone, medicalConditions, photoUrl, receiptUrl, category,
+    fullName, gender, phone, email, institution, level, courseOfStudy,
+    nextOfKinName, nextOfKinPhone, medicalConditions, receiptUrl, category,
   } = req.body ?? {};
 
-  const required = { fullName, gender, phone, email, institution, level, nextOfKinName, nextOfKinPhone, category, receiptUrl };
+  const required = {
+    fullName, gender, phone, email, institution, level, courseOfStudy,
+    nextOfKinName, nextOfKinPhone, category, receiptUrl,
+  };
   for (const [key, value] of Object.entries(required)) {
     if (!value || typeof value !== "string" || !value.trim()) {
       return res.status(400).json({ error: `Missing required field: ${key}` });
     }
   }
-  const baseAmount = BASE_AMOUNTS[category];
-  if (!baseAmount) {
+  if (!VALID_CATEGORIES.includes(category)) {
     return res.status(400).json({ error: "Invalid category" });
   }
 
@@ -38,15 +34,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     email: email.trim().toLowerCase(),
     institution: institution.trim(),
     level: level.trim(),
+    course_of_study: courseOfStudy.trim(),
     next_of_kin_name: nextOfKinName.trim(),
     next_of_kin_phone: nextOfKinPhone.trim(),
     medical_conditions: medicalConditions?.trim() || null,
-    photo_url: photoUrl || null,
     receipt_url: receiptUrl,
     category,
-    base_amount: baseAmount,
-    unique_amount: baseAmount, // kept as a display alias for the amount they were told to pay
-    payment_status: "pending", // awaiting a quick admin glance at the receipt
+    payment_status: "pending",
     house_number: null,
     matched_at: null,
     created_at: Timestamp.now(),

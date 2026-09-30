@@ -7,20 +7,16 @@ import { Link } from "react-router-dom";
 import { PaymentNavbar } from "../components/PaymentNavbar";
 import { Footer } from "../components/Footer";
 
-const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "your-cloud-name";
-// Create this as an *unsigned* upload preset in Cloudinary Console ->
-// Settings -> Upload -> Upload presets -> Add. Unsigned is fine here since
-// it only allows uploads, not deletes/reads of your whole library.
-const CLOUDINARY_UPLOAD_PRESET = "TOYCAC Receipts";
+const CLOUD_NAME = "dio5go08v";
+const CLOUDINARY_UPLOAD_PRESET = "your_exact_preset_name_here"; // <-- your real preset name
 
 const FEES = [
-  { value: "timsanite", label: "Timsanite", price: 5000 },
-  { value: "non_timsanite", label: "Non-Timsanite", price: 6000 },
-  { value: "child", label: "Child", price: 3000 },
-  { value: "iotb", label: "IOTB", price: 7000 },
+  { value: "timsanite", label: "Timsanite" },
+  { value: "non_timsanite", label: "Non-Timsanite" },
+  { value: "child", label: "Child" },
+  { value: "iotb", label: "IOTB" },
 ] as const;
-// NOTE: these four prices are placeholders — tell me the real ones for
-// Timsanite / Non-Timsanite / Child / IOTB and I'll swap them in.
+// Prices are TBA for now — swap the JSX below to show real amounts once set.
 
 const BANK = { name: "FCMB", number: "1027278453", accountName: "TIMSAN OYO STATE" };
 
@@ -31,6 +27,7 @@ type FormState = {
   email: string;
   institution: string;
   level: string;
+  courseOfStudy: string;
   nextOfKinName: string;
   nextOfKinPhone: string;
   medicalConditions: string;
@@ -38,7 +35,7 @@ type FormState = {
 };
 
 const initialForm: FormState = {
-  fullName: "", gender: "", phone: "", email: "", institution: "", level: "",
+  fullName: "", gender: "", phone: "", email: "", institution: "", level: "", courseOfStudy: "",
   nextOfKinName: "", nextOfKinPhone: "", medicalConditions: "", category: "",
 };
 
@@ -67,27 +64,27 @@ export const PaymentPage = () => {
     setReceiptPreview(URL.createObjectURL(file));
   };
 
-const uploadImage = async (file: File): Promise<string> => {
-  const body = new FormData();
-  body.append("file", file);
-  body.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-    method: "POST",
-    body,
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data?.error?.message ? `Upload failed: ${data.error.message}` : "Upload failed");
-  }
-  return data.secure_url as string;
-};
+  const uploadImage = async (file: File): Promise<string> => {
+    const body = new FormData();
+    body.append("file", file);
+    body.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+      method: "POST",
+      body,
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data?.error?.message ? `Upload failed: ${data.error.message}` : "Upload failed");
+    }
+    return data.secure_url as string;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
     const required: (keyof FormState)[] = [
-      "fullName", "gender", "phone", "email", "institution", "level",
+      "fullName", "gender", "phone", "email", "institution", "level", "courseOfStudy",
       "nextOfKinName", "nextOfKinPhone", "category",
     ];
     const missing = required.find((k) => !form[k]);
@@ -192,6 +189,9 @@ const uploadImage = async (file: File): Promise<string> => {
                 <Field label="Institution" required>
                   <input value={form.institution} onChange={update("institution")} className={inputClass} placeholder="e.g. LAUTECH" />
                 </Field>
+                <Field label="Course / Department" required>
+                  <input value={form.courseOfStudy} onChange={update("courseOfStudy")} className={inputClass} placeholder="e.g. Computer Science" />
+                </Field>
               </Section>
 
               <Section title="Emergency Contact">
@@ -218,7 +218,7 @@ const uploadImage = async (file: File): Promise<string> => {
                     <option value="">Select a category</option>
                     {FEES.map((f) => (
                       <option key={f.value} value={f.value}>
-                        {f.label} — ₦{f.price.toLocaleString()}
+                        {f.label} — TBA
                       </option>
                     ))}
                   </select>
@@ -275,7 +275,7 @@ const PendingPayment = ({ result }: { result: RegistrationResult }) => {
       }
     };
     poll();
-    pollRef.current = window.setInterval(poll, 8000); // check every 8s
+    pollRef.current = window.setInterval(poll, 8000);
     return () => {
       if (pollRef.current) window.clearInterval(pollRef.current);
     };
