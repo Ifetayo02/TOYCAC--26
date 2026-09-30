@@ -96,7 +96,7 @@ export const FaqAccordion = () => {
         <div className="mt-10 p-6 md:p-8 bg-[#F0FDF4] rounded-2xl md:rounded-3xl border-2 border-dashed border-emerald-300 text-center" id="contact">
           <p className="font-bold text-sm md:text-base text-gray-800 mb-4">Still confused about something?</p>
           <a 
-            href="https://wa.me/+2347059098620?text=Hello%20TCAC%20Secretariat%2C%20I%20have%20a%20question%20about%20the%20upcoming%20camp." 
+            href="https://wa.me/+2348054958284?text=Hello%20TCAC%20Secretariat%2C%20I%20have%20a%20question%20about%20the%20upcoming%20camp." 
             className="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 md:px-8 py-3 rounded-xl text-sm md:text-base font-black border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 active:translate-y-0 transition-all"
           >
             <MessageCircle size={18} /> Message Secretariat
