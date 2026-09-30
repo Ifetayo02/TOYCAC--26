@@ -132,7 +132,7 @@ export const PaymentPage = () => {
               <div className={`h-1.5 w-12 rounded-full ${step === "pending" ? "bg-emerald-600" : "bg-gray-200"}`}></div>
             </div>
             <h1 className="text-2xl md:text-4xl font-black text-gray-900 leading-tight italic">
-              {step === "form" ? "Register for TCAC '26" : "Registration Submitted"}
+              {step === "form" ? "Register for TOYCAC '27" : "Registration Submitted"}
             </h1>
             <p className="text-gray-600 text-xs md:text-base mt-1">
               {step === "form"
