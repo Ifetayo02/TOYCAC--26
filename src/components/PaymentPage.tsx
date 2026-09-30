@@ -170,8 +170,8 @@ export const PaymentPage = () => {
                   <Field label="Gender" required>
                     <select value={form.gender} onChange={update("gender")} className={inputClass}>
                       <option value="">Select</option>
-                      <option value="brother">Brother</option>
-                      <option value="sister">Sister</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
                     </select>
                   </Field>
                   <Field label="Level" required>
