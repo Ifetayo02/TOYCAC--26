@@ -13,7 +13,7 @@ const faqData = [
   },
     {
     question: "How do I register for the camp?",
-    answer: "Secure your registration in three steps: Pay the delegate fee to the official account on the payment page, capture your digital receipt, and upload it through our integrated Google Form. A confirmation email will be dispatched to you once our Secretariat validates the transaction."
+    answer: "Secure your registration in three steps: transfer the fee to the official account shown on the registration page, fill in your details on our form and attach a screenshot of your receipt, then sit back. A confirmation email with your assigned house is sent automatically once our Secretariat verifies the payment."
   },
   {
     question: "Is the registration fee for the entirety of the camp?",

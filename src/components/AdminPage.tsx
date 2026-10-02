@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CheckCircle2, Loader2, LogOut, RefreshCw, Undo2, X, AlertTriangle } from "lucide-react";
+import { CheckCircle2, Loader2, LogOut, RefreshCw, Undo2, X, AlertTriangle, Download } from "lucide-react";
 
 type Registration = {
   reference: string;
@@ -63,7 +63,27 @@ export const AdminPage = () => {
   useEffect(() => {
     if (secret) load(secret, tab);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+  const handleExport = async () => {
+    try {
+      const res = await fetch("/api/export", { headers: { "x-admin-secret": secret } });
+      if (!res.ok) throw new Error("Export failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `toycac27-registrations-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setModal({
+        kind: "message",
+        title: "Export failed",
+        text: err instanceof Error ? err.message : "Something went wrong.",
+      });
+    }
+  };
   const switchTab = (next: Tab) => {
     setTab(next);
     load(secret, next);
@@ -173,23 +193,24 @@ export const AdminPage = () => {
             >
               <LogOut size={18} />
             </button>
+            <button onClick={handleExport} className="p-2 bg-white border-2 border-black rounded-xl">
+              <Download size={18} />
+            </button>
           </div>
         </div>
 
         <div className="flex gap-2 mb-6">
           <button
             onClick={() => switchTab("pending")}
-            className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border-2 border-black ${
-              tab === "pending" ? "bg-black text-white" : "bg-white text-gray-700"
-            }`}
+            className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border-2 border-black ${tab === "pending" ? "bg-black text-white" : "bg-white text-gray-700"
+              }`}
           >
             Pending
           </button>
           <button
             onClick={() => switchTab("confirmed")}
-            className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border-2 border-black ${
-              tab === "confirmed" ? "bg-black text-white" : "bg-white text-gray-700"
-            }`}
+            className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border-2 border-black ${tab === "confirmed" ? "bg-black text-white" : "bg-white text-gray-700"
+              }`}
           >
             Confirmed
           </button>

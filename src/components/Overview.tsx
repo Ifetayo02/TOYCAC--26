@@ -30,10 +30,10 @@ export const Overview = () => {
   return (
     <section id="overview" className="py-12 md:py-24 px-0 md:px-6 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-0">
-        
+
         {/* Section Header */}
         <div className="text-center mb-10 md:mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -67,7 +67,7 @@ export const Overview = () => {
         </div>
 
         {/* --- CALL TO ACTION CARD --- */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -78,7 +78,7 @@ export const Overview = () => {
               Registration Open
             </div>
             <h3 className="text-5xl md:text-7xl font-black italic leading-[0.85] tracking-tighter uppercase">
-              IGNITE YOUR <br /> 
+              IGNITE YOUR <br />
               <span className="text-black/30">PURPOSE.</span>
             </h3>
             <p className="text-emerald-50 text-sm md:text-xl font-medium max-w-md leading-snug">
@@ -87,7 +87,7 @@ export const Overview = () => {
           </div>
 
           <div className="w-full md:w-72 shrink-0">
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/register')}

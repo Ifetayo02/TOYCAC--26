@@ -19,6 +19,7 @@ const FEES = [
 // Prices are TBA for now — swap the JSX below to show real amounts once set.
 
 const BANK = { name: "FCMB", number: "1027278453", accountName: "TIMSAN OYO STATE" };
+const PHONE_PATTERN = /^[0-9+\s-]{7,15}$/;
 
 type FormState = {
   fullName: string;
@@ -92,6 +93,10 @@ export const PaymentPage = () => {
       setError("Please fill in all required fields before submitting.");
       return;
     }
+    if (!PHONE_PATTERN.test(form.phone) || !PHONE_PATTERN.test(form.nextOfKinPhone)) {
+  setError("Please enter valid phone numbers (digits only).");
+  return;
+}
     if (!receiptFile) {
       setError("Please transfer the fee first, then attach a screenshot of your receipt.");
       return;
@@ -143,23 +148,21 @@ export const PaymentPage = () => {
 
           {step === "form" && (
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="bg-black text-white p-5 md:p-8 rounded-2xl border-2 border-emerald-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
-                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-3">Step 1 — Pay First</p>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-[10px] text-gray-400 uppercase tracking-widest">Bank</p>
-                    <p className="font-black text-lg">{BANK.name}</p>
+              <div className="grid grid-cols-3 gap-2 md:gap-4 mb-2">
+                {[
+                  { n: "1", label: "Pay the fee" },
+                  { n: "2", label: "Fill form & attach receipt" },
+                  { n: "3", label: "Await confirmation" },
+                ].map((s) => (
+                  <div key={s.n} className="bg-white border-2 border-black rounded-xl p-3 text-center">
+                    <div className="w-6 h-6 mx-auto mb-1 rounded-full bg-emerald-600 text-white text-xs font-black flex items-center justify-center">
+                      {s.n}
+                    </div>
+                    <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-tight text-gray-700 leading-tight">
+                      {s.label}
+                    </p>
                   </div>
-                  <div>
-                    <p className="text-[10px] text-gray-400 uppercase tracking-widest">Account No.</p>
-                    <p className="font-black text-lg font-mono">{BANK.number}</p>
-                  </div>
-                </div>
-                <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-3">Account Name</p>
-                <p className="font-black text-sm">{BANK.accountName}</p>
-                <p className="text-[11px] text-emerald-300 mt-3 italic">
-                  Transfer the amount for your category below, take a screenshot of the receipt, then fill the rest of this form.
-                </p>
+                ))}
               </div>
 
               <Section title="Your Details">
@@ -180,7 +183,15 @@ export const PaymentPage = () => {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Field label="Phone Number" required>
-                    <input value={form.phone} onChange={update("phone")} className={inputClass} placeholder="080..." />
+                    <input
+                      type="tel"
+                      inputMode="tel"
+                      pattern="^[0-9+\s-]{7,15}$"
+                      value={form.phone}
+                      onChange={update("phone")}
+                      className={inputClass}
+                      placeholder="080..."
+                    />
                   </Field>
                   <Field label="Email" required>
                     <input type="email" value={form.email} onChange={update("email")} className={inputClass} placeholder="you@email.com" />
@@ -200,7 +211,15 @@ export const PaymentPage = () => {
                     <input value={form.nextOfKinName} onChange={update("nextOfKinName")} className={inputClass} placeholder="Parent / Guardian name" />
                   </Field>
                   <Field label="Next of Kin Phone" required>
-                    <input value={form.nextOfKinPhone} onChange={update("nextOfKinPhone")} className={inputClass} placeholder="080..." />
+                    <input
+                      type="tel"
+                      inputMode="tel"
+                      pattern="^[0-9+\s-]{7,15}$"
+                      value={form.phone}
+                      onChange={update("phone")}
+                      className={inputClass}
+                      placeholder="080..."
+                    />
                   </Field>
                 </div>
                 <Field label="Medical Conditions" hint="Optional — allergies, medication, anything camp medical staff should know">
@@ -307,7 +326,7 @@ const PendingPayment = ({ result }: { result: RegistrationResult }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white p-8 md:p-12 rounded-[2rem] border-2 md:border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center space-y-4"
+
     >
       <Loader2 className="w-10 h-10 text-emerald-600 animate-spin mx-auto" />
       <h3 className="text-xl md:text-2xl font-black uppercase italic">Under Review</h3>
