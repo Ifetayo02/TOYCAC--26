@@ -34,7 +34,11 @@
 
   html {
     overflow-x: hidden;
+      scroll-behavior: smooth;
   }
+section[id] {
+  scroll-margin-top: 90px;
+}
 
   body {
     @apply bg-surface text-on-surface font-body selection:bg-primary/20 selection:text-primary;

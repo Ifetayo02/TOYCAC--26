@@ -44,3 +44,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "Export failed", detail: String(err) });
   }
 }
+
+const snap = await registrationsRef
+  .where("payment_status", "==", "confirmed")
+  .orderBy("created_at", "desc")
+  .get();
