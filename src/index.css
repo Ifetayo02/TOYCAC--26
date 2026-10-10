@@ -24,6 +24,27 @@
   --color-border: #bccac0;
   --color-success: #2e7d32;
 }
+/* Logo watermark: add `watermark` (and optionally `watermark-left`) to any <section> className */
+.watermark {
+  position: relative;
+  isolation: isolate;
+}
+.watermark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("./assets/timsan-logo.png");
+  background-repeat: no-repeat;
+  background-size: min(520px, 85vw);
+  background-position: right -120px top 48px;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+}
+.watermark-left::before {
+  background-position: left -120px top 48px;
+}
 
 @layer base {
   *,

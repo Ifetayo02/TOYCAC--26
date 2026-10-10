@@ -27,7 +27,7 @@ const pillars = [
 
 export const About = () => {
   return (
-    <section id="about" className="py-12 md:py-24 px-4 md:px-6 bg-white overflow-hidden">
+    <section id="about" className="watermark py-12 md:py-24 px-4 md:px-6 bg-white overflow-hidden">
       {/* Image + Intro */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center mb-12 md:mb-16">
         <motion.div

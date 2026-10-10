@@ -3,6 +3,10 @@ import { UserRound } from "lucide-react";
 
 const CLOUD_NAME = "dio5go08v";
 
+// Change this ONE line to resize every executive photo on the page.
+// Order is: phone, tablet, desktop (96px, 112px, 144px).
+const AVATAR_SIZE = "w-24 sm:w-28 lg:w-36";
+
 // No folder prefix here — Dynamic Folder Mode keeps the visual folder
 // separate from the actual delivery path, so it never appears in the URL.
 // encodeURIComponent handles the public IDs that have spaces/periods in them
@@ -42,7 +46,7 @@ const executives: Executive[] = [
 
 export const Executives = () => {
   return (
-    <section id="executives" className="py-12 md:py-24 px-4 md:px-6 bg-[#F0FDF4]">
+    <section id="executives" className="watermark watermark-left py-12 md:py-24 px-4 md:px-6 bg-[#F0FDF4]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10 md:mb-16">
           <motion.h2
@@ -58,7 +62,7 @@ export const Executives = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-3 gap-y-8 sm:gap-x-4 md:gap-x-6 md:gap-y-10">
           {executives.map((exec, i) => (
             <motion.div
               key={i}
@@ -68,14 +72,16 @@ export const Executives = () => {
               transition={{ delay: (i % 10) * 0.05 }}
               className="text-center hover:-translate-y-1 transition-transform"
             >
-              <div className="aspect-square w-full rounded-full bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center overflow-hidden">
+              <div
+                className={`${AVATAR_SIZE} aspect-square mx-auto rounded-full bg-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center overflow-hidden`}
+              >
                 {exec.image ? (
                   <img src={exec.image} alt={exec.name} className="w-full h-full object-cover object-[center_20%]" />
                 ) : (
-                  <UserRound className="w-12 h-12 md:w-16 md:h-16 text-emerald-300" strokeWidth={1.5} />
+                  <UserRound className="w-10 h-10 md:w-14 md:h-14 text-emerald-300" strokeWidth={1.5} />
                 )}
               </div>
-              <div className="px-2 pt-3 md:px-4 md:pt-4">
+              <div className="px-1 pt-3 md:pt-4 max-w-[11rem] mx-auto">
                 <p className="font-black text-gray-900 text-[10px] md:text-xs uppercase tracking-tight leading-tight">
                   {exec.name}
                 </p>

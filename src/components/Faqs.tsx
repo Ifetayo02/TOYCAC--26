@@ -34,7 +34,7 @@ export const FaqAccordion = () => {
   };
 
   return (
-    <section id="faq" className="py-12 md:py-24 px-4 md:px-6 bg-white">
+    <section id="faq" className="	watermark py-12 md:py-24 px-4 md:px-6 bg-white">
       <div className="max-w-3xl mx-auto">
         
         {/* Header - Tightened for Mobile */}

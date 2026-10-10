@@ -6,7 +6,7 @@ export const HomeHero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative px-4 sm:px-6 pt-24 py-12 md:py-32 overflow-hidden bg-[#F0FDF4]">
+    <section className="watermark relative px-4 sm:px-6 pt-24 py-12 md:py-32 overflow-hidden bg-[#F0FDF4]">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 sm:gap-10 md:gap-16">
         <div className="w-full md:w-1/2 space-y-6 md:space-y-8 z-10 text-center md:text-left">
           <motion.div

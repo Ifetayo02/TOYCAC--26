@@ -94,9 +94,9 @@ export const PaymentPage = () => {
       return;
     }
     if (!PHONE_PATTERN.test(form.phone) || !PHONE_PATTERN.test(form.nextOfKinPhone)) {
-  setError("Please enter valid phone numbers (digits only).");
-  return;
-}
+      setError("Please enter valid phone numbers (digits, +, spaces or dashes only).");
+      return;
+    }
     if (!receiptFile) {
       setError("Please transfer the fee first, then attach a screenshot of your receipt.");
       return;
@@ -124,18 +124,14 @@ export const PaymentPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0FDF4] flex flex-col">
+    <div className="watermark min-h-screen bg-[#F0FDF4] flex flex-col">
       <PaymentNavbar />
       <main className="flex-grow pt-24 pb-20 px-4 md:px-6">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="mb-8 text-center">
             <Link to="/" className="inline-flex items-center gap-2 text-emerald-700 font-bold mb-6 hover:underline text-xs md:text-sm uppercase tracking-tight">
               <ArrowLeft size={16} /> Back to Home
             </Link>
-            <div className="flex justify-center gap-2 mb-4">
-              <div className="h-1.5 w-12 bg-emerald-600 rounded-full shadow-sm"></div>
-              <div className={`h-1.5 w-12 rounded-full ${step === "pending" ? "bg-emerald-600" : "bg-gray-200"}`}></div>
-            </div>
             <h1 className="text-2xl md:text-4xl font-black text-gray-900 leading-tight italic">
               {step === "form" ? "Register for TOYCAC '27" : "Registration Submitted"}
             </h1>
@@ -146,130 +142,184 @@ export const PaymentPage = () => {
             </p>
           </div>
 
-          {step === "form" && (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-3 gap-2 md:gap-4 mb-2">
-                {[
-                  { n: "1", label: "Pay the fee" },
-                  { n: "2", label: "Fill form & attach receipt" },
-                  { n: "3", label: "Await confirmation" },
-                ].map((s) => (
-                  <div key={s.n} className="bg-white border-2 border-black rounded-xl p-3 text-center">
-                    <div className="w-6 h-6 mx-auto mb-1 rounded-full bg-emerald-600 text-white text-xs font-black flex items-center justify-center">
-                      {s.n}
+          <div className="grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)] gap-6 lg:gap-8 items-start">
+            {/* Left column: steps + bank details */}
+            <div className="space-y-4 lg:sticky lg:top-28">
+              <StepsCard step={step} />
+              {step === "form" && <BankCard />}
+            </div>
+
+            {/* Right column: form or status */}
+            <div className="min-w-0">
+              {step === "form" && (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <Section title="Your Details">
+                    <Field label="Full Name" required>
+                      <input value={form.fullName} onChange={update("fullName")} className={inputClass} placeholder="e.g. Fatima Abdullahi" />
+                    </Field>
+                    <div className="grid grid-cols-2 gap-4">
+                      <Field label="Gender" required>
+                        <select value={form.gender} onChange={update("gender")} className={inputClass}>
+                          <option value="">Select</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                        </select>
+                      </Field>
+                      <Field label="Level" required>
+                        <input value={form.level} onChange={update("level")} className={inputClass} placeholder="e.g. 300L" />
+                      </Field>
                     </div>
-                    <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-tight text-gray-700 leading-tight">
-                      {s.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <Field label="Phone Number" required>
+                        <input
+                          type="tel"
+                          inputMode="tel"
+                          pattern="[0-9+\s\-]{7,15}"
+                          title="Digits only, 7 to 15 characters (+, spaces and dashes allowed)"
+                          value={form.phone}
+                          onChange={update("phone")}
+                          className={inputClass}
+                          placeholder="080..."
+                        />
+                      </Field>
+                      <Field label="Email" required>
+                        <input type="email" value={form.email} onChange={update("email")} className={inputClass} placeholder="you@email.com" />
+                      </Field>
+                    </div>
+                    <Field label="Institution" required>
+                      <input value={form.institution} onChange={update("institution")} className={inputClass} placeholder="e.g. LAUTECH" />
+                    </Field>
+                    <Field label="Course / Department" required>
+                      <input value={form.courseOfStudy} onChange={update("courseOfStudy")} className={inputClass} placeholder="e.g. Computer Science" />
+                    </Field>
+                  </Section>
 
-              <Section title="Your Details">
-                <Field label="Full Name" required>
-                  <input value={form.fullName} onChange={update("fullName")} className={inputClass} placeholder="e.g. Fatima Abdullahi" />
-                </Field>
-                <div className="grid grid-cols-2 gap-4">
-                  <Field label="Gender" required>
-                    <select value={form.gender} onChange={update("gender")} className={inputClass}>
-                      <option value="">Select</option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                    </select>
-                  </Field>
-                  <Field label="Level" required>
-                    <input value={form.level} onChange={update("level")} className={inputClass} placeholder="e.g. 300L" />
-                  </Field>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field label="Phone Number" required>
-                    <input
-                      type="tel"
-                      inputMode="tel"
-                      pattern="^[0-9+\s-]{7,15}$"
-                      value={form.phone}
-                      onChange={update("phone")}
-                      className={inputClass}
-                      placeholder="080..."
-                    />
-                  </Field>
-                  <Field label="Email" required>
-                    <input type="email" value={form.email} onChange={update("email")} className={inputClass} placeholder="you@email.com" />
-                  </Field>
-                </div>
-                <Field label="Institution" required>
-                  <input value={form.institution} onChange={update("institution")} className={inputClass} placeholder="e.g. LAUTECH" />
-                </Field>
-                <Field label="Course / Department" required>
-                  <input value={form.courseOfStudy} onChange={update("courseOfStudy")} className={inputClass} placeholder="e.g. Computer Science" />
-                </Field>
-              </Section>
+                  <Section title="Emergency Contact">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <Field label="Next of Kin Name" required>
+                        <input value={form.nextOfKinName} onChange={update("nextOfKinName")} className={inputClass} placeholder="Parent / Guardian name" />
+                      </Field>
+                      <Field label="Next of Kin Phone" required>
+                        <input
+                          type="tel"
+                          inputMode="tel"
+                          pattern="[0-9+\s\-]{7,15}"
+                          title="Digits only, 7 to 15 characters (+, spaces and dashes allowed)"
+                          value={form.nextOfKinPhone}
+                          onChange={update("nextOfKinPhone")}
+                          className={inputClass}
+                          placeholder="080..."
+                        />
+                      </Field>
+                    </div>
+                    <Field label="Medical Conditions" hint="Optional — allergies, medication, anything camp medical staff should know">
+                      <textarea value={form.medicalConditions} onChange={update("medicalConditions")} className={`${inputClass} min-h-[80px]`} placeholder="None" />
+                    </Field>
+                  </Section>
 
-              <Section title="Emergency Contact">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field label="Next of Kin Name" required>
-                    <input value={form.nextOfKinName} onChange={update("nextOfKinName")} className={inputClass} placeholder="Parent / Guardian name" />
-                  </Field>
-                  <Field label="Next of Kin Phone" required>
-                    <input
-                      type="tel"
-                      inputMode="tel"
-                      pattern="^[0-9+\s-]{7,15}$"
-                      value={form.phone}
-                      onChange={update("phone")}
-                      className={inputClass}
-                      placeholder="080..."
-                    />
-                  </Field>
-                </div>
-                <Field label="Medical Conditions" hint="Optional — allergies, medication, anything camp medical staff should know">
-                  <textarea value={form.medicalConditions} onChange={update("medicalConditions")} className={`${inputClass} min-h-[80px]`} placeholder="None" />
-                </Field>
-              </Section>
+                  <Section title="Payment Receipt" hint="Required — screenshot of the transfer you just made">
+                    <PhotoPicker preview={receiptPreview} onChange={handleReceipt} label="receipt screenshot" />
+                  </Section>
 
-              <Section title="Payment Receipt" hint="Required — screenshot of the transfer you just made">
-                <PhotoPicker preview={receiptPreview} onChange={handleReceipt} label="receipt screenshot" />
-              </Section>
+                  <Section title="Registration Category">
+                    <Field label="Registering As" required>
+                      <select value={form.category} onChange={update("category")} className={inputClass}>
+                        <option value="">Select a category</option>
+                        {FEES.map((f) => (
+                          <option key={f.value} value={f.value}>
+                            {f.label} — TBA
+                          </option>
+                        ))}
+                      </select>
+                    </Field>
+                  </Section>
 
-              <Section title="Registration Category">
-                <Field label="Registering As" required>
-                  <select value={form.category} onChange={update("category")} className={inputClass}>
-                    <option value="">Select a category</option>
-                    {FEES.map((f) => (
-                      <option key={f.value} value={f.value}>
-                        {f.label} — TBA
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-              </Section>
+                  {error && (
+                    <div className="flex items-center gap-2 text-red-600 bg-red-50 border-2 border-red-100 rounded-xl p-3 text-xs md:text-sm font-medium">
+                      <AlertCircle size={16} /> {error}
+                    </div>
+                  )}
 
-              {error && (
-                <div className="flex items-center gap-2 text-red-600 bg-red-50 border-2 border-red-100 rounded-xl p-3 text-xs md:text-sm font-medium">
-                  <AlertCircle size={16} /> {error}
-                </div>
+                  <motion.button
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full inline-flex items-center justify-center gap-3 bg-black text-white font-black py-5 rounded-xl border-2 border-emerald-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] hover:bg-gray-900 active:translate-y-1 transition-all uppercase tracking-widest text-sm disabled:opacity-60"
+                  >
+                    {submitting ? <Loader2 className="animate-spin" size={20} /> : <>Continue to Payment <ArrowRight size={20} className="text-emerald-400" /></>}
+                  </motion.button>
+                </form>
               )}
 
-              <motion.button
-                whileTap={{ scale: 0.98 }}
-                type="submit"
-                disabled={submitting}
-                className="w-full inline-flex items-center justify-center gap-3 bg-black text-white font-black py-5 rounded-xl border-2 border-emerald-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] hover:bg-gray-900 active:translate-y-1 transition-all uppercase tracking-widest text-sm disabled:opacity-60"
-              >
-                {submitting ? <Loader2 className="animate-spin" size={20} /> : <>Continue to Payment <ArrowRight size={20} className="text-emerald-400" /></>}
-              </motion.button>
-            </form>
-          )}
-
-          {step === "pending" && result && (
-            <PendingPayment result={result} />
-          )}
+              {step === "pending" && result && <PendingPayment result={result} />}
+            </div>
+          </div>
         </div>
       </main>
       <Footer />
     </div>
   );
 };
+
+/* ---------- Left column cards ---------- */
+
+const STEPS = [
+  { title: "Pay the fee", desc: "Transfer the fee for your category to the official account." },
+  { title: "Fill the form & attach receipt", desc: "Complete your details and upload a screenshot of your transfer receipt." },
+  { title: "Await confirmation", desc: "Once the Secretariat verifies your payment, your house is emailed to you." },
+];
+
+const StepsCard = ({ step }: { step: "form" | "pending" }) => {
+  const statusOf = (n: number) =>
+    step === "pending" ? (n < 3 ? "done" : "active") : n < 3 ? "active" : "idle";
+
+  return (
+    <aside className="bg-white border-2 border-black rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-5">
+      <h2 className="font-black text-sm uppercase tracking-tight text-gray-900 mb-4">How it works</h2>
+      <ol className="space-y-4">
+        {STEPS.map((s, i) => {
+          const n = i + 1;
+          const st = statusOf(n);
+          return (
+            <li key={s.title} className="flex gap-3">
+              <div
+                className={`shrink-0 w-7 h-7 rounded-full border-2 border-black flex items-center justify-center text-xs font-black ${
+                  st === "idle" ? "bg-gray-100 text-gray-400" : "bg-emerald-600 text-white"
+                }`}
+              >
+                {st === "done" ? <CheckCircle2 size={14} /> : n}
+              </div>
+              <div>
+                <p className={`text-xs font-black uppercase tracking-tight ${st === "idle" ? "text-gray-400" : "text-gray-900"}`}>
+                  {s.title}
+                </p>
+                <p className="text-[11px] text-gray-500 leading-snug mt-0.5">{s.desc}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </aside>
+  );
+};
+
+const BankCard = () => (
+  <div className="bg-black text-white p-5 rounded-2xl border-2 border-emerald-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+    <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-3">Pay to this account</p>
+    <div className="grid grid-cols-2 gap-4">
+      <div>
+        <p className="text-[10px] text-gray-400 uppercase tracking-widest">Bank</p>
+        <p className="font-black text-lg">{BANK.name}</p>
+      </div>
+      <div>
+        <p className="text-[10px] text-gray-400 uppercase tracking-widest">Account No.</p>
+        <p className="font-black text-lg font-mono">{BANK.number}</p>
+      </div>
+    </div>
+    <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-3">Account Name</p>
+    <p className="font-black text-sm">{BANK.accountName}</p>
+  </div>
+);
 
 /* ---------- Pending Payment step ---------- */
 
@@ -300,22 +350,21 @@ const PendingPayment = ({ result }: { result: RegistrationResult }) => {
     };
   }, [result.reference]);
 
+  const cardClass =
+    "bg-white p-5 md:p-12 rounded-2xl md:rounded-[2rem] border-2 md:border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center space-y-3 md:space-y-4";
+
   if (status === "confirmed") {
     return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white p-8 md:p-12 rounded-[2rem] border-2 md:border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center space-y-4"
-      >
-        <CheckCircle2 className="w-14 h-14 text-emerald-600 mx-auto" />
-        <h3 className="text-2xl md:text-3xl font-black uppercase italic">You're In!</h3>
-        <p className="text-gray-600 text-sm md:text-base">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className={cardClass}>
+        <CheckCircle2 className="w-10 h-10 md:w-14 md:h-14 text-emerald-600 mx-auto" />
+        <h3 className="text-xl md:text-3xl font-black uppercase italic">You're In!</h3>
+        <p className="text-gray-600 text-xs md:text-base">
           Payment confirmed. A confirmation email is on its way with your details.
         </p>
         {houseNumber && (
-          <div className="inline-block bg-emerald-600 text-white px-8 py-4 rounded-2xl border-2 border-black">
+          <div className="inline-block bg-emerald-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-2xl border-2 border-black">
             <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Your House</p>
-            <p className="text-3xl font-black italic">{houseNumber}</p>
+            <p className="text-2xl md:text-3xl font-black italic">{houseNumber}</p>
           </div>
         )}
       </motion.div>
@@ -323,13 +372,9 @@ const PendingPayment = ({ result }: { result: RegistrationResult }) => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-
-    >
-      <Loader2 className="w-10 h-10 text-emerald-600 animate-spin mx-auto" />
-      <h3 className="text-xl md:text-2xl font-black uppercase italic">Under Review</h3>
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className={cardClass}>
+      <Loader2 className="w-7 h-7 md:w-10 md:h-10 text-emerald-600 animate-spin mx-auto" />
+      <h3 className="text-base md:text-2xl font-black uppercase italic">Under Review</h3>
       <p className="text-gray-500 text-xs md:text-sm max-w-md mx-auto">
         We've got your details and receipt. Nothing else to do — this page updates itself the
         moment it's reviewed, and your confirmation email (with house number) goes out automatically.

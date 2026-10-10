@@ -2,31 +2,31 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Images, X, Loader2, ChevronDown, ChevronUp } from "lucide-react";
 
-/**
- * HOW TO ADD NEW PHOTOS (no code changes needed):
- * 1. Upload the photo to your Cloudinary account (any folder).
- * 2. Give it the tag below (CLOUDINARY_TAG) — either at upload time,
- *    or afterwards in the Cloudinary Media Library.
- * 3. It shows up here automatically next time the page loads.
- *
- * One-time setup in Cloudinary Console:
- *   Settings -> Security -> "Resource list" -> enable it for images.
- *   (Off by default; the public tag-list JSON endpoint below won't
- *   work until this is turned on.)
- *
- * Set your cloud name in `.env` as VITE_CLOUDINARY_CLOUD_NAME.
- */
-const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "your-cloud-name";
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "dio5go08v";
 const CLOUDINARY_TAG = "toycac-recap";
-const PREVIEW_COUNT = 12; // how many show before "View Full Gallery"
+const PREVIEW_COUNT = 14; // two full cycles of the tile pattern below
 
 type CloudinaryResource = {
   public_id: string;
   format: string;
 };
 
-const thumbUrl = (publicId: string) =>
-  `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_500,h_500,c_fill,q_auto,f_auto/${encodeURIComponent(publicId)}`;
+// Repeating 7-tile pattern: big, small, small, tall, small, wide, small.
+// On the 4-column desktop grid that is exactly 12 cells = 3 complete rows,
+// so each cycle packs with no gaps. Class names are written out in full so
+// Tailwind can detect them. w/h are the size requested from Cloudinary.
+const TILE_PATTERN = [
+  { cls: "col-span-2 row-span-2", w: 1000, h: 900 },
+  { cls: "", w: 500, h: 450 },
+  { cls: "", w: 500, h: 450 },
+  { cls: "row-span-2", w: 500, h: 950 },
+  { cls: "", w: 500, h: 450 },
+  { cls: "col-span-2", w: 1000, h: 450 },
+  { cls: "", w: 500, h: 450 },
+] as const;
+
+const tileUrl = (publicId: string, w: number, h: number) =>
+  `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_${w},h_${h},c_fill,g_auto,q_auto,f_auto/${encodeURIComponent(publicId)}`;
 
 const fullUrl = (publicId: string) =>
   `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_1600,q_auto,f_auto/${encodeURIComponent(publicId)}`;
@@ -60,10 +60,16 @@ export const Gallery = () => {
   }, []);
 
   const visibleImages = expanded ? images : images.slice(0, PREVIEW_COUNT);
-  const hasMore = images.length > PREVIEW_COUNT && !expanded;
+
+  const toggleExpanded = () => {
+    if (expanded) {
+      document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth" });
+    }
+    setExpanded((e) => !e);
+  };
 
   return (
-    <section id="gallery" className="py-12 md:py-24 px-4 md:px-6 bg-white overflow-hidden">
+    <section id="gallery" className="watermark py-12 md:py-24 px-4 md:px-6 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10 md:mb-16">
           <div className="flex items-center justify-center gap-2 mb-3">
@@ -99,35 +105,43 @@ export const Gallery = () => {
 
         {status === "ready" && images.length > 0 && (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
-              {visibleImages.map((img, i) => (
-                <motion.button
-                  key={img.public_id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: (i % 12) * 0.04 }}
-                  onClick={() => setActive(img)}
-                  className="block aspect-square rounded-2xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-                >
-                  <img
-                    src={thumbUrl(img.public_id)}
-                    alt="TCAC camp memory"
-                    loading="lazy"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  />
-                </motion.button>
-              ))}
+            <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[160px] md:auto-rows-[260px] grid-flow-dense gap-3 md:gap-4">
+              {visibleImages.map((img, i) => {
+                const tile = TILE_PATTERN[i % TILE_PATTERN.length];
+                return (
+                  <motion.button
+                    key={img.public_id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: (i % 7) * 0.05 }}
+                    onClick={() => setActive(img)}
+                    className={`group block overflow-hidden rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${tile.cls}`}
+                  >
+                    <img
+                      src={tileUrl(img.public_id, tile.w, tile.h)}
+                      alt="TCAC camp memory"
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </motion.button>
+                );
+              })}
             </div>
+
             {images.length > PREVIEW_COUNT && (
               <div className="flex justify-center mt-8 md:mt-10">
                 <motion.button
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => setExpanded((e) => !e)}
+                  onClick={toggleExpanded}
                   className="inline-flex items-center gap-2 bg-black text-white font-black px-6 py-3 md:px-8 md:py-4 rounded-xl border-2 border-emerald-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] uppercase tracking-widest text-xs md:text-sm hover:bg-gray-900 transition-colors"
                 >
                   {expanded ? "See Less" : "View Full Gallery"}
-                  {expanded ? <ChevronUp size={18} className="text-emerald-400" /> : <ChevronDown size={18} className="text-emerald-400" />}
+                  {expanded ? (
+                    <ChevronUp size={18} className="text-emerald-400" />
+                  ) : (
+                    <ChevronDown size={18} className="text-emerald-400" />
+                  )}
                 </motion.button>
               </div>
             )}

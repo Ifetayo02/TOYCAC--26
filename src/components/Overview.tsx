@@ -28,7 +28,7 @@ export const Overview = () => {
   const navigate = useNavigate();
 
   return (
-    <section id="overview" className="py-12 md:py-24 px-0 md:px-6 bg-white overflow-hidden">
+    <section id="overview" className="watermark py-12 md:py-24 px-0 md:px-6 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-0">
 
         {/* Section Header */}

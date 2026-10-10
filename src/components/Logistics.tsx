@@ -20,7 +20,7 @@ export const Logistics = () => {
   const navigate = useNavigate();
 
   return (
-    <section id="logistics" className="py-12 md:py-24 px-4 md:px-6 bg-[#F0FDF4]">
+    <section id="logistics" className="watermark watermark-left py-12 md:py-24 px-4 md:px-6 bg-[#F0FDF4]">
       <div className="max-w-7xl mx-auto">
         
         {/* Header - Reduced margin and text size on mobile */}
