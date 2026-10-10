@@ -29,7 +29,7 @@ export const Logistics = () => {
             Logistics <span className='text-emerald-600'>& Venue</span>
           </h2>
           <p className="text-gray-600 text-xs md:text-base max-w-xl mx-auto px-2 leading-relaxed">
-            Plan your journey to Ogbomosho for TOYCAC '26. We've handled the essentials so you can focus on the experience.
+            Plan your journey to Ogbomosho for TOYCAC '27. We've handled the essentials so you can focus on the experience.
           </p>
         </div>
 
