@@ -61,7 +61,15 @@ export const HomeNavbar = () => {
                 <a 
                 key={link.name}
                   href={link.href}
-                  onClick={() => setIsOpen(false)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setIsOpen(false);
+                    window.history.replaceState(null, "", link.href);
+                    document.getElementById(link.href.slice(1))?.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                  }}
                   className="text-gray-700 font-bold text-lg hover:text-emerald-600 border-b border-gray-50 pb-2"
                 >
                   {link.name}
