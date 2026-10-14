@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
+
+:root {
+  --refresh-green: #006948;
+  --refresh-green-bright: #00855d;
+  --refresh-mint: #c0edd3;
+  --refresh-surface: #f5fbf5;
+  --refresh-ink: #171d19;
+  --refresh-muted: #536159;
+  --refresh-line: #d5e3d9;
+  --refresh-shadow: 0 16px 38px rgba(0, 66, 43, 0.09);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  background-image: linear-gradient(180deg, rgba(192, 237, 211, 0.18), transparent 28rem);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Outfit", "DM Sans", ui-sans-serif, sans-serif;
+  font-style: normal !important;
+  letter-spacing: 0 !important;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  transition-duration: 220ms;
+}
+
+a {
+  text-underline-offset: 4px;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(0, 133, 93, 0.38);
+  outline-offset: 3px;
+}
+
+section.watermark {
+  background-image: radial-gradient(rgba(0, 105, 72, 0.075) 0.7px, transparent 0.7px);
+  background-size: 22px 22px;
+}
+
+section.watermark.relative {
+  background-image:
+    linear-gradient(115deg, rgba(192, 237, 211, 0.72), rgba(245, 251, 245, 0.94) 58%, rgba(255, 255, 255, 0.96)),
+    radial-gradient(rgba(0, 105, 72, 0.08) 0.7px, transparent 0.7px);
+  background-size: auto, 22px 22px;
+}
+
+section.watermark h1 {
+  font-size: 4rem;
+  line-height: 1.02;
+}
+
+section.watermark h2 {
+  line-height: 1.05;
+}
+
+nav.fixed {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(188, 202, 192, 0.62) !important;
+  box-shadow: 0 8px 28px rgba(0, 66, 43, 0.07);
+  backdrop-filter: blur(18px);
+}
+
+nav.fixed a,
+nav.fixed button {
+  transition: color 180ms ease, background-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+[class*="border-2"][class*="border-black"] {
+  border-width: 1px !important;
+  border-color: var(--refresh-line) !important;
+  box-shadow: var(--refresh-shadow) !important;
+}
+
+section.watermark [class*="rounded-2xl"][class*="bg-white"],
+section.watermark [class*="rounded-[2rem]"][class*="bg-emerald-50"] {
+  box-shadow: var(--refresh-shadow);
+}
+
+#about .grid > div[class*="rounded-2xl"],
+#overview .grid > div,
+#logistics .grid > div > div,
+#executives .grid > div,
+#gallery .grid > button {
+  transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+}
+
+#about .grid > div[class*="rounded-2xl"]:hover,
+#overview .grid > div:hover,
+#executives .grid > div:hover {
+  transform: translateY(-4px);
+}
+
+#gallery .grid > button {
+  border-radius: 12px !important;
+}
+
+#gallery .grid > button img {
+  transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1), filter 300ms ease;
+}
+
+#gallery .grid > button:hover img {
+  filter: saturate(1.08);
+}
+
+#executives .grid > div > div:first-child {
+  border: 3px solid white !important;
+  outline: 1px solid var(--refresh-line);
+  box-shadow: 0 8px 22px rgba(0, 66, 43, 0.14) !important;
+}
+
+input:not([type="file"]),
+select,
+textarea {
+  border-color: var(--refresh-line) !important;
+  border-radius: 10px !important;
+  background-color: #f8fcf9 !important;
+}
+
+input:not([type="file"]):focus,
+select:focus,
+textarea:focus {
+  border-color: var(--refresh-green-bright) !important;
+  background-color: white !important;
+  box-shadow: 0 0 0 4px rgba(0, 133, 93, 0.1);
+}
+
+label[class*="cursor-pointer"] > div[class*="border-dashed"] {
+  border-radius: 14px !important;
+}
+
+footer {
+  background-color: #173d30 !important;
+  border-color: rgba(192, 237, 211, 0.18) !important;
+}
+
+@media (max-width: 767px) {
+  section.watermark h1 {
+    font-size: 2.75rem;
+  }
+
+  section.watermark {
+    background-size: 18px 18px;
+  }
+
+  section.watermark.relative {
+    background-size: auto, 18px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
