@@ -65,10 +65,14 @@ export const HomeNavbar = () => {
                     event.preventDefault();
                     setIsOpen(false);
                     window.history.replaceState(null, "", link.href);
-                    document.getElementById(link.href.slice(1))?.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    });
+                    window.setTimeout(() => {
+                      const target = document.getElementById(link.href.slice(1));
+                      if (!target) return;
+
+                      const navbarHeight = document.querySelector("nav.fixed")?.getBoundingClientRect().height ?? 0;
+                      const top = target.getBoundingClientRect().top + window.scrollY - navbarHeight - 12;
+                      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+                    }, 350);
                   }}
                   className="text-gray-700 font-bold text-lg hover:text-emerald-600 border-b border-gray-50 pb-2"
                 >
