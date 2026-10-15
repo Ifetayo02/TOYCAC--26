@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import { BookOpen, HeartHandshake, GraduationCap, Landmark } from "lucide-react";
 import timsanLogo from "../assets/TMS-fb.jpg";
 
@@ -25,6 +26,36 @@ const pillars = [
   },
 ];
 
+const InstitutionBadge = () => {
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(badgeRef, { once: true });
+  const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const duration = 550;
+    const startedAt = performance.now();
+    let frame = 0;
+
+    const updateCount = (now: number) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      setCount(Math.floor(1 + progress * 9));
+      if (progress < 1) frame = requestAnimationFrame(updateCount);
+    };
+
+    frame = requestAnimationFrame(updateCount);
+    return () => cancelAnimationFrame(frame);
+  }, [isInView]);
+
+  return (
+    <div ref={badgeRef} className="absolute -top-6 -left-6 bg-emerald-600 text-white px-5 py-3 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hidden sm:block">
+      <p className="text-2xl md:text-3xl font-black italic leading-none">{count}+</p>
+      <p className="text-[9px] font-bold uppercase tracking-widest">Tertiary Institutions</p>
+    </div>
+  );
+};
+
 export const About = () => {
   return (
     <section id="about" className="watermark py-12 md:py-24 px-4 md:px-6 bg-white overflow-hidden">
@@ -44,10 +75,7 @@ export const About = () => {
               className="w-full h-full object-contain"
             />
           </div>
-          <div className="absolute -top-6 -left-6 bg-emerald-600 text-white px-5 py-3 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hidden sm:block">
-            <p className="text-2xl md:text-3xl font-black italic leading-none">10+</p>
-            <p className="text-[9px] font-bold uppercase tracking-widest">Tertiary Institutions</p>
-          </div>
+          <InstitutionBadge />
         </motion.div>
 
         <motion.div
