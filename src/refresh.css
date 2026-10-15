@@ -162,6 +162,87 @@ footer {
   border-color: rgba(192, 237, 211, 0.18) !important;
 }
 
+:is(
+  .sleek-card,
+  .watermark aside[class*="rounded-2xl"],
+  .watermark form > div[class*="rounded-2xl"],
+  .watermark [class*="rounded-2xl"][class*="border-2"][class*="bg-white"],
+  .watermark [class*="rounded-2xl"][class*="border-2"][class*="bg-emerald-50"],
+  #about .grid > div[class*="rounded-2xl"],
+  #overview .grid > div,
+  #logistics .grid > div > div,
+  #executives .grid > div,
+  #gallery .grid > button
+) {
+  transform-style: preserve-3d;
+  transition: transform 360ms cubic-bezier(0.2, 0.75, 0.25, 1), box-shadow 360ms ease;
+}
+
+button[class*="bg-emerald-600"],
+button[class*="bg-black"],
+a[class*="bg-emerald-600"],
+a[class*="bg-black"] {
+  transform-style: preserve-3d;
+  transition: transform 260ms cubic-bezier(0.2, 0.75, 0.25, 1), box-shadow 260ms ease, background-color 220ms ease;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :is(
+    .sleek-card,
+    .watermark aside[class*="rounded-2xl"],
+    .watermark form > div[class*="rounded-2xl"],
+    .watermark [class*="rounded-2xl"][class*="border-2"][class*="bg-white"],
+    .watermark [class*="rounded-2xl"][class*="border-2"][class*="bg-emerald-50"],
+    #about .grid > div[class*="rounded-2xl"],
+    #overview .grid > div,
+    #logistics .grid > div > div,
+    #executives .grid > div,
+    #gallery .grid > button
+  ):hover,
+  :is(
+    .sleek-card,
+    .watermark aside[class*="rounded-2xl"],
+    .watermark form > div[class*="rounded-2xl"],
+    .watermark [class*="rounded-2xl"][class*="border-2"][class*="bg-white"],
+    .watermark [class*="rounded-2xl"][class*="border-2"][class*="bg-emerald-50"],
+    #about .grid > div[class*="rounded-2xl"],
+    #overview .grid > div,
+    #logistics .grid > div > div,
+    #executives .grid > div,
+    #gallery .grid > button
+  ):focus-within {
+    transform: perspective(900px) translate3d(0, -7px, 20px) rotateX(1deg);
+    box-shadow: 0 24px 48px rgba(0, 66, 43, 0.17) !important;
+    z-index: 2;
+  }
+
+  button[class*="bg-emerald-600"]:hover,
+  button[class*="bg-black"]:hover,
+  a[class*="bg-emerald-600"]:hover,
+  a[class*="bg-black"]:hover {
+    transform: perspective(700px) translate3d(0, -3px, 10px);
+    box-shadow: 0 12px 24px rgba(0, 66, 43, 0.2);
+  }
+}
+
+@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+  :is(
+    .sleek-card,
+    .watermark aside[class*="rounded-2xl"],
+    .watermark form > div[class*="rounded-2xl"],
+    #overview .grid > div,
+    #logistics .grid > div > div,
+    #executives .grid > div,
+    #gallery .grid > button
+  ):active,
+  button[class*="bg-emerald-600"]:active,
+  button[class*="bg-black"]:active,
+  a[class*="bg-emerald-600"]:active,
+  a[class*="bg-black"]:active {
+    transform: scale(0.97) translateY(2px);
+  }
+}
+
 @media (max-width: 767px) {
   section.watermark h1 {
     font-size: 2.75rem;
